@@ -22,8 +22,8 @@ import { createTimer } from "~/utils/timer"
 
 export const meta: MetaFunction = () =>
   createMeta({
-    title: `Log In`,
-    description: `Continue to dashboard`,
+    title: `Log In to payFlow`,
+    description: `Access your invoicing dashboard`,
   })
 
 export const loader = ({ request }: ActionFunctionArgs) => {
@@ -32,7 +32,7 @@ export const loader = ({ request }: ActionFunctionArgs) => {
   })
 }
 
-export default function SignUpRoute() {
+export default function LoginRoute() {
   const actionData = useActionData<typeof action>()
   const { isModeDevelopment } = useAppMode()
 
@@ -56,47 +56,48 @@ export default function SignUpRoute() {
   })
 
   return (
-    <div className="site-container">
-      <div className="site-section-md space-y-8">
-        <header className="site-header">
-          <h2 className="inline-flex items-center gap-2">
-            <IconMatch icon="sign-in" />
-            <span>Log in to continue</span>
-          </h2>
-          <p>
-            Don't have an account?{" "}
-            <LinkText to="/signup" className="transition hover:text-primary">
-              Sign up
-            </LinkText>
-          </p>
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+      <div className="container mx-auto flex min-h-screen items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-glow">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+              Welcome back
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Don't have an account?{" "}
+              <LinkText to="/signup" className="font-medium text-primary hover:text-primary-600">
+                Sign up for free
+              </LinkText>
+            </p>
+          </div>
 
-        <section className="space-y-2">
-          <AuthButtons />
-        </section>
+          <div className="mt-8 space-y-6">
+            <AuthButtons />
+          </div>
 
-        <SectionOr />
+          <SectionOr />
 
-        <section>
           <Form
             replace
-            action="/login"
             method="POST"
-            className="flex flex-col gap-2"
+            className="mt-8 space-y-6"
             {...form.props}
           >
-            <fieldset className="flex flex-col gap-2" disabled={isSubmitting}>
+            <div className="space-y-4">
               {redirectTo ? <input type="hidden" name="redirectTo" value={redirectTo} /> : null}
 
               <FormField>
-                <FormLabel htmlFor={email.id}>Email</FormLabel>
+                <FormLabel htmlFor={email.id} className="sr-only">
+                  Email address
+                </FormLabel>
                 <Input
                   {...conform.input(email, {
                     type: "email",
                     description: true,
                   })}
                   id={email.id}
-                  placeholder="yourname@example.com"
+                  className="rounded-xl px-4 py-3"
+                  placeholder="Email address"
                   autoCapitalize="none"
                   autoCorrect="off"
                   autoFocus={email.error ? true : undefined}
@@ -106,28 +107,44 @@ export default function SignUpRoute() {
               </FormField>
 
               <FormField>
-                <FormLabel htmlFor={password.id}>Password</FormLabel>
-                <InputPassword
-                  {...conform.input(password, {
-                    description: true,
-                  })}
-                  id={password.id}
-                  placeholder="Enter password"
-                  autoComplete="current-password"
-                  autoFocus={password.error ? true : undefined}
-                  required
-                  className="w-full"
-                />
-                <FormDescription id={password.descriptionId}>At least 8 characters</FormDescription>
+                <FormLabel htmlFor={password.id} className="sr-only">
+                  Password
+                </FormLabel>
+                <div className="relative w-full">
+                  <InputPassword
+                    {...conform.input(password, {
+                      description: true,
+                    })}
+                    id={password.id}
+                    className="w-full rounded-xl px-4 py-3"
+                    placeholder="Password"
+                    autoComplete="current-password"
+                    autoFocus={password.error ? true : undefined}
+                    required
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <FormDescription id={password.descriptionId} className="text-xs">
+                    At least 8 characters
+                  </FormDescription>
+                  <LinkText to="/forgot-password" className="text-xs font-medium text-primary hover:text-primary-600">
+                    Forgot your password?
+                  </LinkText>
+                </div>
                 <FormErrors>{password}</FormErrors>
               </FormField>
+            </div>
 
-              <ButtonLoading type="submit" loadingText="Logging In..." isLoading={isSubmitting}>
-                Log In
-              </ButtonLoading>
-            </fieldset>
+            <ButtonLoading
+              type="submit"
+              loadingText="Logging in..."
+              isLoading={isSubmitting}
+              className="w-full rounded-xl bg-primary py-3 font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              Log in to your account
+            </ButtonLoading>
           </Form>
-        </section>
+        </div>
       </div>
     </div>
   )

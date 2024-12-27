@@ -1,415 +1,148 @@
-# [🐶 Dogokit Beagle](https://dogokit-beagle.vercel.app)
+# payFlow: Invoice Management for Sole Business Owners
+
+Welcome to **payFlow**, a web application designed to help sole business owners create, manage, and send invoices effortlessly. With payFlow, your clients can pay invoices directly from a link, making the payment process seamless and efficient.
+
+This project is built using the **Remix** framework, a modern web framework for building fast, scalable, and user-friendly web applications.
+
+## Features
+
+### Core Features
+- **Invoice Creation**: Easily create and customize invoices with client details, itemized lists, taxes, and discounts.
+- **Invoice Management**: Track, edit, and manage all your invoices in one place.
+- **Payment Processing**: Receive payments directly via payment links with support for multiple payment methods.
+- **Client Management**: Maintain a database of clients for quick and easy invoicing.
+- **Reporting & Analytics**: Generate financial reports and track payment history.
+- **User Authentication**: Secure sign-up and login with email/password or social media accounts.
+
+### Additional Features
+- **Recurring Invoices**: Set up recurring invoices for regular clients.
+- **Payment Reminders**: Automate payment reminders for unpaid invoices.
+- **Multi-Currency Support**: Create invoices in multiple currencies.
+- **Custom Branding**: Customize invoice templates with your logo and brand colors.
+- **Security**: Data encryption, compliance with GDPR and PCI DSS standards.
+
+## Technologies Used
+
+- **Remix**: A full-stack web framework for building modern web applications.
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A typed superset of JavaScript for better developer experience.
+- **Prisma**: A modern database toolkit for TypeScript and Node.js.
+- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+- **Stripe**: A payment processing platform for handling payments securely.
+
+## Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+- [Git](https://git-scm.com/)
+
+### Installation
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Remix](https://img.shields.io/badge/Remix-000000?style=flat-square&logo=remix&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Radix UI](https://img.shields.io/badge/Radix_UI-111111?style=flat-square&logo=framer&logoColor=white)
-![Prisma ORM](https://img.shields.io/badge/Prisma_ORM-2D3748?style=flat-square&logo=prisma&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+1. **Clone the repository**
 
-> 🚧 Migrating to PostgreSQL (Neon) from MySQL (PlanetScale)
+   ```bash
+   git clone https://github.com/ibro1/payflow.git
+   cd payflow
 
-🐶Dogokit Beagle is a web app template kit using Remix, React, Tailwind CSS, Radix UI, Prisma ORM, and more. Read the latest updates and details on
-[dogokit/dogokit-beagle](https://github.com/dogokit/dogokit-beagle).
-
-The goal is to start and be as productive as possible to ship a web app quickly with [Remix](https://remix.run) full stack web framework. It is a highly opinionated collection of application structure, interactive UI components, software engineering and web development workflow, functionality hooks and utilities, also integration with 3rd party services.
-
-Check out:
-
-- Web: <https://dogokit-beagle.vercel.app>
-- Repo: <https://github.com/dogokit/dogokit-beagle>
-
-## Table of Contents
-
-- [Quick Start](#quick-start)
-- [Goal](#goal)
-- [Prerequisites](#prerequisites)
-- [Concept](#concept)
-- [Tech Stack](#tech-stack)
-- [Setup](#setup)
-- [References](#references)
-
-## Quick Start
-
-<!-- THIS IS A REMOVABLE SECTION -->
-
-Starting new?
-[Use this template to generate the repository](https://github.com/dogokit/dogokit-beagle/generate).
-
-Clone?
-
-```sh
-git clone git@github.com:dogokit/dogokit-beagle.git
-```
-
-Use `pnpx` or `pnpm dlx`?
-
-```sh
-pnpx create-remix@latest --template dogokit/dogokit-beagle
-```
-
-Once decided to use this, in order to get the latest
-[README docs](https://github.com/dogokit/dogokit-beagle/blob/main/README.md) possible, replace and
-remove all explanation in here except the [Setup](#setup) section.
-
-This is a template kit, not a blank repo generator. Customize it based on the actual application
-needs. Make sure to first explore to understand, rename, and replace the contents along the way.
-
-## Goal
-
-<!-- THIS IS A REMOVABLE SECTION -->
-
-The goal is to use this for building web apps:
-
-- Personal Website
-- Company Profile
-- Interactive Form
-- Todo List
-- Blog or News
-- Social Media
-- Community Forum
-- Support Desk
-- Art Gallery
-- Job Board
-- Hiring or Recruitment
-- Applicant Tracking System (ATS)
-- Inventory Management
-- Events Management
-- Knowledge Management
-- Admin Panel or Dashboard
-- E-Commerce or Storefront
-- Product or Project Management
-- Content Management System (CMS)
-- Learning Management System (LMS)
-- Software as a Service (SaaS)
+   Install dependencies
 
-## Prerequisites
+bash
+Copy
+npm install
+# or
+yarn install
+Set up environment variables
 
-Before using this template, you should already understand and have experience with:
+Create a .env file in the root directory and add the necessary environment variables:
 
-- CLI/Terminal
-- HTML
-- CSS
-- JavaScript
-- Node.js
-- TypeScript
-- React
+env
+Copy
+DATABASE_URL="your-database-url"
+STRIPE_PUBLIC_KEY="your-stripe-public-key"
+STRIPE_SECRET_KEY="your-stripe-secret-key"
+SESSION_SECRET="your-session-secret"
+Run database migrations
 
-## Concept
+bash
+Copy
+npx prisma migrate dev --name init
+Start the development server
 
-<!-- THIS IS A REMOVABLE SECTION -->
-
-Some reasons for making and using this template kit.
+bash
+Copy
+npm run dev
+# or
+yarn dev
+The application should now be running on http://localhost:3000.
 
-- Create a new [Remix](https://remix.run) app or existing one with multiple features quickly
-- Setup commonly used development and production parts
-  - With [pnpm](https://pnpm.io) by default
-- UI components and styles
-  - Light and dark mode theme
-  - Styling with [Tailwind CSS](https://tailwindcss.com) and [Radix UI](https://radix-ui.com)
-  - Bundled with [shadcn UI](https://ui.shadcn.com)
-  - Icon retrieval either with [Iconify](https://iconify.design) or manual import
-- Database with [Prisma ORM](https://prisma.io)
-  - Default for [PostgreSQL](https://postgresql.org) on [Neon](https://neon.tech)
-  - Option for [MySQL](https://mysql.com) on [PlanetScale](https://planetscale.com)
-  - Run local development database instance as a container with [Docker](https://docker) and
-    [Docker Compose](https://docs.docker.com/compose)
-- Auth (authentication and authorization) built-in
-  - With [Remix Auth](https://github.com/sergiodxa/remix-auth) using various strategies: Form and
-    OAuth with 3rd party services
-- Various code and utilities
-  - Environment variables check with [Zod](https://zod.dev) and znv
-  - Date and time, encryption, metadata, redirect route, placeholder, sitemap, string functions,
-    timer delay, URL, etc
-- Code quality with [Prettier](https://prettier.io), [ESLint](https://eslint.org),
-  [Stylelint](https://stylelint.io), [Commitlint](https://commitlint.js.org)
+Building for Production
+To build the application for production, run:
 
-Later:
+bash
+Copy
+npm run build
+# or
+yarn build
+To start the production server, run:
 
-- Sending transactional email with [React Email](https://react.email) and
-  [Resend](https://resend.com)
-- Testing with [Vitest](https://vitest.dev) and [Playwright](https://playwright.dev)
-- Commands with `dogokit` CLI or `@dogokit/cli`
+bash
+Copy
+npm start
+# or
+yarn start
+Project Structure
+plaintext
+Copy
+payflow/
+├── app/
+│   ├── routes/               # Remix route modules
+│   ├── styles/               # Global styles and Tailwind configuration
+│   ├── utils/                # Utility functions and helpers
+│   └── root.tsx              # Root layout and global components
+├── prisma/                   # Prisma schema and migrations
+├── public/                   # Static assets (images, fonts, etc.)
+├── .env                      # Environment variables
+├── .gitignore                # Git ignore file
+├── package.json              # Project dependencies and scripts
+├── README.md                 # Project documentation
+└── tsconfig.json             # TypeScript configuration
+Contributing
+We welcome contributions from the community! If you'd like to contribute to payFlow, please follow these steps:
 
-## Tech Stack
+Fork the repository
 
-<!-- THIS IS A REMOVABLE SECTION -->
+Create a new branch (git checkout -b feature/YourFeatureName)
 
-The main prerequisites to learn, understand, and use with the stack. See the complete and
-categorized list in the [guide to tech stack](./docs/GUIDE_STACK.md) including things to consider to
-use later and won't use at all.
+Commit your changes (git commit -m 'Add some feature')
 
-(Architecture diagram can help later on here)
+Push to the branch (git push origin feature/YourFeatureName)
 
-- [Remix](https://remix.run)
-- [React](https://react.dev)
-- [TypeScript](https://typescriptlang.org)
-- [Node.js](https://nodejs.org)
-- [pnpm](https://pnpm.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Radix UI](https://radix-ui.com)
-- [Iconify](https://iconify.design)
-- [Prisma ORM](https://prisma.io)
-- [MySQL](https://mysql.com)
-- [Docker](https://docker.com) and [Docker Compose](https://docs.docker.com/compose)
+Open a pull request
 
-## Setup
+Please ensure your code follows our coding standards and includes appropriate tests.
 
-### Dependencies
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-Use [pnpm](https://pnpm.io) to improve productivity and replace npm, so make sure
-[pnpm is installed](https://pnpm.io/installation#using-npm):
+Acknowledgments
+Remix Team for creating an amazing framework.
 
-```sh
-npm i -g pnpm
-```
+Tailwind CSS for making styling a breeze.
 
-To run the app locally, make sure the project's local dependencies are installed:
+Stripe for providing a robust payment processing solution.
 
-```sh
-pnpm install
-```
+Contact
+If you have any questions or need support, feel free to reach out:
 
-This also run the `postinstall` script from `package.json` which by default run `prisma generate`.
+Email: support@payflow.com
 
-> Note: Not using Bun yet as there are still some issues.
+Twitter: @payflow
 
-### Prisma Client Generation
+GitHub Issues: payFlow Issues
 
-By default installing the modules is also running the `postinstall` script that generate the Prisma
-Client (`@prisma/client`) for it to be used in the app.
+Thank you for using payFlow! We hope it makes your invoicing and payment process smoother and more efficient. Happy invoicing! 🚀
 
-If it isn't generated or need to generate manually, run:
-
-```sh
-pnpm db:gen
-# prisma generate
-```
-
-### Code Quality
-
-Log, format, lint to check if the setup is fine:
-
-```sh
-pnpm check
-# check: env typecheck prettier eslint stylelint prisma
-```
-
-```sh
-pnpm fix
-# fix: prettier eslint stylelint prisma
-```
-
-> Note: Can ignore non-critical warning from ESLint and TypeScript
-
-### Environment Variables
-
-Create the `.env` file from `.env.example`. This is the one for local development, not production
-
-```sh
-cp -i .env.example .env
-```
-
-Configure the required environment variables if on local, otherwise in the project settings on other
-environments.
-
-If necessary, create the `.env.production` for production access. Adjust accordingly if need for
-`staging`, `test`, etc. Be careful to change the `APP_URL` on different domains and subdomains.
-
-```sh
-cp -i .env.example .env.production
-```
-
-Required:
-
-- `APP_URL`: For example, `http://localhost:3000`
-- `SESSION_SECRET`: For example, `the_secret_text`. Anything goes, but better to generate a random
-  string using `openssl rand -base64 32` on the terminal or put any long random text.
-- `DATABASE_URL`: For example, `mysql://user:password@localhost:3306/dogokit`. Continue to read the
-  Database Setup.
-
-Optional:
-
-- `NODE_ENV`: For example, `development`
-- `*_CLIENT_ID` and `*_CLIENT_SECRET`: For OAuth related,
-  [check Guide: OAuth](./docs/GUIDE_OAUTH.md)
-
-#### Database Setup
-
-Prisma ORM is used to communicate with the database easily.
-
-For the database, either choose to use MySQL or PostgreSQL (relational database) from local system,
-Docker container, services like [PlanetScale](https://planetscale.com) (MySQL) or
-[Neon](https://neon.tech) (PostgreSQL).
-
-If prefer using Docker and Docker Compose for local development,
-[follow this guide on database](./docs/GUIDE_DATABASE.md).
-
-The app is configured primarily to be deployed using PlanetScale. Because of that, the migration
-files are not needed. Therefore, push the schema directly there. The migration process will be
-handled through its [deploy requests](https://planetscale.com/docs/concepts/deploy-requests).
-
-This repo template does not recommend MongoDB (document database), although Prisma has a stable
-support for it. The database provider can still be changed, and the schema and databaase operations
-might need to adapt.
-
-#### MySQL Database with PlanetScale
-
-To start quickly, create a [PlanetScale](https://planetscale.com) account to have a MySQL instance
-for development and production. After the database has been created, "Get the connection string",
-select "Prisma", then copy the full `DATABASE_URL`.
-
-> Keep in mind the free plan only allow for 1 database. So either later keep it, delete it when
-> unused, or upgrade the plan. There's also a verification with a payment card, even though it's
-> still free to start.
-
-Also read:
-
-- [Prisma with PlanetScale](https://prisma.io/docs/guides/database/planetscale)
-- [PlanetScale with Prisma](https://planetscale.com/docs/prisma/prisma-quickstart)
-
-### Database Operations
-
-Sync between Prisma schema and the database directly, by making schema changes with
-`prisma db push`, which can be done regularly while updating the models:
-
-```sh
-pnpm db:push
-# prisma db push
-```
-
-> Note: Only need to push the schema in development. No need for migration files.
-
-Even with local development without PlanetScale, pushing the schema directly is still okay when in
-development or
-[prototyping the schema](https://prisma.io/docs/concepts/components/prisma-migrate/db-push). After a
-success push, then it will automatically run `prisma generate`.
-
-Create `users.ts` in `prisma/credentials` folder with the format below. Can focus on certain users
-who want to be able to access in development, so it doesn't have to be everyone.
-
-```ts
-export const dataCredentialUsers = [
-  {
-    fullname: "Example",
-    username: "example",
-    nickname: "Dogo",
-    email: "example@example.com",
-    password: "exampleexample",
-    roleSymbol: "ADMIN",
-  },
-]
-```
-
-Then seed the initial data when needed:
-
-```sh
-pnpm db:seed
-# prisma db seed
-```
-
-### Build
-
-Check if the build is fine. This als be used to build the app for production.
-
-```sh
-pnpm build
-# remix build
-```
-
-This will also run `prisma generate` too before the build.
-
-Then try to run the app in production mode:
-
-```sh
-pnpm start
-```
-
-Then pick a host to deploy it to, such as:
-
-- Vercel
-- Netlify
-- Fly.io
-- Render.com
-- Railway.app
-- Google Cloud
-- Amazon Web Services
-- Microsoft Azure
-
-If familiar with deploying node applications, the built-in Remix app server is production-ready.
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
-
-### Development
-
-Finally, develop the app while running the development server:
-
-```sh
-pnpm dev
-# remix dev --manual
-```
-
-Open <http://localhost:3000> and it's ready!
-
-## What's Next?
-
-<!-- THIS IS A REMOVABLE SECTION -->
-
-Develop the app as usual, the Remix way.
-
-Read the [guide to codebase](./docs/GUIDE_CODEBASE.md) and [guide steps](./docs/GUIDE_STEPS.md) to
-learn more about the setup.
-
-### Change the Contents
-
-- Arrange and remove components as needed.
-- Find and replace various texts, especially the word Dogokit.
-
-### Change Theme Colors
-
-Use [`kiliman/shadcn-custom-theme`](https://github.com/kiliman/shadcn-custom-theme) to generate
-shadcn UI CSS variables with Tailwind CSS colors.
-
-For example:
-
-```sh
-pnpx shadcn-custom-theme primary=indigo secondary=blue accent=violet gray=neutral
-```
-
-### Setup some services
-
-- Image upload with [Uploadcare](https://uploadcare.com)
-  - `UPLOADCARE_PUBLIC_KEY`, `UPLOADCARE_SECRET_KEY`
-- Transactional email with [Resend](https://resend.com)
-  - `RESEND_API_KEY`
-- Product analytics with [Posthog](https://posthog.com)
-  - `POSTHOG_KEY`
-
-### Subscribe for the status of the services
-
-- [Vercel Status](https://vercel-status.com)
-- [PlanetScale Status](https://planetscalestatus.com)
-- [Uploadcare Status](https://status.uploadcare.com)
-- [Resend Status](https://resend-status.com)
-
-## References
-
-<!-- THIS IS A REMOVABLE SECTION -->
-
-### Used By
-
-- [🐾 Allnimal](https://allnimal.com)
-  - [🐻 Bearmentor](https://bearmentor.com)
-  - [🐱 Catamyst](https://catamyst.com)
-  - [🐶 Dogokit](https://dogokit-beagle.vercel.app)
-
-## Authors
-
-Originally created by [@mhaidarhanif](https://github.com/mhaidarhanif) in 2023, from the 🐾 Allnimal group (🐻 Bearmentor, 🐱 Catamyst, 🐶 Dogokit)
-
----
-
-2024 ©️ 🐶 Dogokit

@@ -114,12 +114,12 @@ async function seedUsers() {
   }
 
   for (const userCredential of dataCredentialUsers) {
-    const { password, roleSymbol, ...userRaw } = userCredential
-    debugCode({ password, roleSymbol }, false)
+    const { password, symbol, ...userRaw } = userCredential
+    debugCode({ password, symbol }, false)
 
     const userData = {
       ...userRaw,
-      roles: { connect: { symbol: userCredential.roleSymbol } },
+      roles: { connect: { symbol } },
     }
 
     const existingUser = await db.user.findUnique({
