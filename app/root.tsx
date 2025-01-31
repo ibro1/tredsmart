@@ -20,6 +20,7 @@ import { parsedEnvClient } from "~/utils/env.server"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { SolanaProvider } from "~/lib/solana/context"
+import { startTweetTracking } from "~/jobs/tweet-tracker.server"
 
 export const handle = createSitemap()
 
@@ -31,12 +32,19 @@ export const meta: MetaFunction = () =>
 
 export const links: LinksFunction = () => configDocumentLinks
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export async function loader({ request }: LoaderFunctionArgs) {
   const themeSession = await getThemeSession(request)
   const theme = themeSession.getTheme()
 
   const userSession = await authService.isAuthenticated(request)
   if (!userSession) {
+    // Start tweet tracking job
+    if (process.env.NODE_ENV === "production") {
+      startTweetTracking().catch((error) => {
+        console.error("Failed to start tweet tracking:", error)
+      })
+    }
+
     return json({
       ENV: parsedEnvClient,
       theme,
@@ -47,6 +55,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const userData = await modelUser.getForSession({ id: userSession.id })
   if (!userData) return redirect(`/logout`)
+
+  // Start tweet tracking job
+  if (process.env.NODE_ENV === "production") {
+    startTweetTracking().catch((error) => {
+      console.error("Failed to start tweet tracking:", error)
+    })
+  }
 
   return json({
     ENV: parsedEnvClient,

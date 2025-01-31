@@ -1,5 +1,5 @@
-import { json, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { json, type LoaderFunctionArgs, type ActionFunctionArgs, type MetaFunction } from "@remix-run/node"
+import { Form, useLoaderData, Link } from "@remix-run/react"
 import {
   IconPlus,
   IconWallet,
@@ -10,6 +10,7 @@ import {
   IconRefresh,
   IconCopy,
   IconQrcode,
+  IconSettings,
 } from "@tabler/icons-react"
 import { useState, useEffect } from "react"
 import { useWallet, useConnection } from "@solana/wallet-adapter-react"
@@ -36,6 +37,39 @@ export const meta: MetaFunction = () =>
     title: `Solana Wallet - TredSmart`,
     description: `Manage your Solana wallet, view balances, and secure your assets`,
   })
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { user } = await requireUser(request)
+  const formData = await request.formData()
+  
+  if (formData.get("_action") === "updateSettings") {
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        autoTrading: formData.get("autoTrading") === "true",
+        tradeAmount: formData.get("tradeAmount") ? parseFloat(formData.get("tradeAmount") as string) : null,
+        maxSlippage: formData.get("maxSlippage") ? parseFloat(formData.get("maxSlippage") as string) : null,
+        stopLoss: formData.get("stopLoss") ? parseFloat(formData.get("stopLoss") as string) : null,
+        takeProfit: formData.get("takeProfit") ? parseFloat(formData.get("takeProfit") as string) : null,
+      },
+    })
+  }
+  
+  if (formData.get("_action") === "connectWallet") {
+    const walletAddress = formData.get("walletAddress")
+    if (typeof walletAddress !== "string") throw new Error("Invalid wallet address")
+    
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        walletAddress,
+        walletConnectedAt: new Date(),
+      },
+    })
+  }
+
+  return json({ success: true })
+}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { user } = await requireUser(request)
@@ -65,7 +99,7 @@ export default function WalletManagementRoute() {
           getRecentTransactions(connection, publicKey),
         ])
 
-        setBalance(solBalance)
+        setBalance(solBalance / LAMPORTS_PER_SOL) // Convert lamports to SOL
         setTokens(tokenAccounts)
         setTransactions(recentTxs)
       } catch (error) {
@@ -77,6 +111,16 @@ export default function WalletManagementRoute() {
 
     fetchWalletData()
   }, [publicKey, connected, connection])
+
+  useEffect(() => {
+    // Save wallet address when connected
+    if (connected && publicKey && (!user.walletAddress || user.walletAddress !== publicKey.toBase58())) {
+      const formData = new FormData()
+      formData.append("_action", "connectWallet")
+      formData.append("walletAddress", publicKey.toBase58())
+      fetch("/user/wallet", { method: "POST", body: formData })
+    }
+  }, [connected, publicKey, user.walletAddress])
 
   return (
     <div className="app-container space-y-8">
@@ -97,6 +141,7 @@ export default function WalletManagementRoute() {
             <nav className="-mb-px flex space-x-8">
               {[
                 { id: "wallet", label: "Wallet", icon: IconWallet },
+                { id: "trading", label: "Trading Settings", icon: IconSettings },
                 { id: "backup", label: "Backup & Security", icon: IconShieldLock },
               ].map((tab) => (
                 <button
@@ -260,7 +305,104 @@ export default function WalletManagementRoute() {
             </div>
           )}
 
-          {/* Backup & Security Section */}
+          {activeTab === "trading" && (
+            <div className="space-y-6">
+              <Card className="p-6">
+                <Form method="post" className="space-y-4">
+                  <input type="hidden" name="_action" value="updateSettings" />
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold">Auto Trading</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Automatically execute trades based on influencer signals
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        name="autoTrading"
+                        id="autoTrading"
+                        className="h-4 w-4 rounded border-gray-300"
+                        defaultChecked={user.autoTrading}
+                        value="true"
+                      />
+                      <label htmlFor="autoTrading" className="text-sm font-medium">
+                        Enable
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 border-t pt-4">
+                    <div>
+                      <label className="text-sm font-medium">
+                        Trade Amount (SOL)
+                      </label>
+                      <input
+                        type="number"
+                        name="tradeAmount"
+                        step="0.001"
+                        min="0.001"
+                        defaultValue={user.tradeAmount}
+                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
+                        placeholder="0.001"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">
+                        Max Slippage (%)
+                      </label>
+                      <input
+                        type="number"
+                        name="maxSlippage"
+                        step="0.1"
+                        min="0.1"
+                        defaultValue={user.maxSlippage}
+                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
+                        placeholder="5"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">
+                        Stop Loss (%)
+                      </label>
+                      <input
+                        type="number"
+                        name="stopLoss"
+                        step="0.1"
+                        min="0"
+                        defaultValue={user.stopLoss}
+                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
+                        placeholder="10"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">
+                        Take Profit (%)
+                      </label>
+                      <input
+                        type="number"
+                        name="takeProfit"
+                        step="0.1"
+                        min="0"
+                        defaultValue={user.takeProfit}
+                        className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2"
+                        placeholder="20"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Button type="submit">Save Settings</Button>
+                  </div>
+                </Form>
+              </Card>
+            </div>
+          )}
+
           {activeTab === "backup" && (
             <div className="space-y-6">
               <Card className="p-6">
