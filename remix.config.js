@@ -18,6 +18,12 @@ export default {
   browserNodeBuiltinsPolyfill: {
     modules: {
       punycode: true,
+      http: true,
+      https: true,
+      url: true,
+      buffer: true,
+      stream: true,
+      crypto: true,
     },
   },
 
