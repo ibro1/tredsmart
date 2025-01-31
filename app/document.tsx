@@ -5,6 +5,9 @@ import { ThemeHead, useTheme, type Theme } from "~/components/shared/theme"
 import { configSite } from "~/configs/site"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 
+// Import Solana wallet adapter styles
+import "@solana/wallet-adapter-react-ui/styles.css"
+
 export function Document({
   dataTheme,
   children,

@@ -93,7 +93,7 @@ export function ErrorBoundary() {
 
   return (
     <ThemeProvider specifiedTheme={"" as Theme}>
-      <Document>
+      <Document dataTheme={"" as Theme}>
         <GeneralErrorBoundary />
       </Document>
     </ThemeProvider>
