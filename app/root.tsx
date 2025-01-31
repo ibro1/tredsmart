@@ -19,6 +19,7 @@ import { getThemeSession } from "~/services/theme.server"
 import { parsedEnvClient } from "~/utils/env.server"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
+import { SolanaProvider } from "~/lib/solana/context"
 
 export const handle = createSitemap()
 
@@ -61,7 +62,9 @@ function RootRoute() {
   return (
     <ThemeProvider specifiedTheme={data.theme}>
       <Document dataTheme={data.theme}>
-        <Outlet />
+        <SolanaProvider>
+          <Outlet />
+        </SolanaProvider>
       </Document>
     </ThemeProvider>
   )

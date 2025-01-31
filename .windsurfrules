@@ -1,10 +1,9 @@
 ## About payFlow
-A web app called payFlow for sole business owners. The goal is to provide an invoicing and payment management platform where users can create, manage, and send invoices, and clients can pay directly via payment links. this is Remix app built with Tailwind CSS and Prisma and Radix UI.
+A real-time cryptocurrency influencer tracking platform, called "TredSmart" that monitors Twitter influencers' cryptocurrency recommendations and provides automated trading capabilities with advanced risk management features.
 
 ## Project Rules
 // Rule 1: Explicitly state each rule
-1. When you encounter an internal error, explicitly state how to avoid and fix it next time in the output.
-2. When you need a file in your context, ask me to provide the path. Do not search the codebase.
+1. At the end of every completed step, please record your work in @docs/PROGRESS.md Write down the implemented features, encountered errors and how we were able to fix all of those. Always answer these three questions, don’t skip anything and be as concise and comprehensive as possible. 
 3. Break down large file edits into smaller, focused changes.
 4. When editing files, target only the specific sections that need to be changed.
 5. Avoid making multiple edits to the same file in rapid succession.
@@ -13,67 +12,8 @@ A web app called payFlow for sole business owners. The goal is to provide an inv
 8. Before editing a page, first analyze and check the page.
 9. Always remember this is a Remix app.
 
-## Project Context
-// Rule 1: Explicitly state each rule
-1. Every time you choose to apply a rule(s), explicitly state the rule(s) in the output.
-
-// Rule 2: Abbreviate rule descriptions
-2. You can abbreviate the rule description to a single word or phrase.
-
-// Rule 3: Keep rules concise
-3. Rules should be concise and to the point.
-
-// Rule 4: Provide context for rules
-## Project Context
-| The rules in this file are designed to ensure consistency and maintainability in the payFlow app built using Remix, using Nested folders with flat-files convention, and Tailwind CSS for styling. The rules cover aspects like user roles, UI components, data management, and other key areas of the application.
-
-// Rule 5: Use roles for access control
-5. Implement role-based access control using the `user.roles` field. The available roles are ADMIN and USER.
-
-// Rule 6: Leverage Tailwind CSS for styling
-6. Use Tailwind CSS utility classes for rapid prototyping and maintainable styles. Avoid custom CSS unless absolutely necessary.
-
-// Rule 7: Maintain data integrity with Prisma
-7. Use Prisma as the ORM to manage the database schema and perform CRUD operations. Ensure data integrity through the Prisma schema.
-
-// Rule 8: Provide clear status indicators
-8. Display clear status indicators (e.g., badges) on the UI to communicate the state of various entities (invoices, payments, clients, etc.).
-
-// Rule 9: Optimize navigation
-9. Implement intuitive navigation between related features (invoices, clients, payments) to provide a seamless user experience.
-
-## Performance and Optimization
-10. Implement code splitting and dynamic imports to optimize initial page load times.
-11. Use lazy loading for components and resources that are not immediately required.
-12. Leverage server-side rendering (SSR) to improve perceived performance.
-13. Analyze and optimize database queries to minimize response times.
-14. Implement caching strategies for frequently accessed data.
-
 ## UI and Styling
-15. Follow Tailwind CSS design guidelines for consistent styling and interactions.
+15. Follow Tailwind CSS and Radix ui design guidelines for consistent styling and interactions.
 16. Use Tailwind CSS utility classes for rapid prototyping and maintainable styles.
 17. Create custom CSS styles only when necessary, and ensure they are well-documented.
 18. Ensure the UI is responsive and accessible for users on various devices and screen sizes.
-
-## Project Information
-19. The payFlow app is built using Remix, a full-stack React framework, and styled using Tailwind CSS, a utility-first CSS framework.
-20. Prisma is used as the ORM to manage the database schema and perform CRUD operations.
-21. The app follows a role-based access control system, with two distinct user roles: ADMIN and USER.
-22. The project aims to provide sole business owners with a comprehensive invoicing and payment management experience, including invoice creation, payment tracking, and client management.
-
-## Additional Rules for payFlow
-23. Ensure all invoices have a unique identifier and are easily searchable.
-24. Implement secure payment processing using Stripe or a similar payment gateway.
-25. Provide clear and concise error messages for failed payments or invalid inputs.
-26. Include a dashboard with key metrics (e.g., total revenue, unpaid invoices, overdue invoices).
-27. Allow users to export invoice data in multiple formats (PDF, CSV, Excel).
-28. Implement automated email reminders for unpaid invoices.
-29. Ensure all client data is encrypted and stored securely.
-30. Provide a user-friendly interface for managing recurring invoices.
-
-## Best Practices
-31. Follow Remix best practices for routing, data loading, and error handling.
-32. Use TypeScript for type safety and better developer experience.
-33. Write unit and integration tests for critical functionality.
-34. Document all major components, hooks, and utilities.
-35. Regularly review and refactor code to maintain readability and performance.

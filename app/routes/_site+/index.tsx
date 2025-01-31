@@ -4,9 +4,9 @@ import { createMeta } from "~/utils/meta"
 
 export const meta: MetaFunction = () =>
   createMeta({
-    title: "payFlow - Invoicing Made Simple",
+    title: "TredSmarter - Crypto Influencer Trading Platform",
     description:
-      "Streamline your invoicing and payment management with payFlow. Perfect for sole business owners.",
+      "Real-time crypto influencer tracking platform with AI-powered analysis and automated trading. Monitor influencers, analyze tweets, and execute trades with advanced risk management.",
   })
 
 export default function IndexRoute() {
@@ -18,32 +18,31 @@ export default function IndexRoute() {
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
           <div className="text-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"></div>
             <p className="mt-2 text-sm text-gray-600">Loading...</p>
           </div>
         </div>
       )}
 
-      {/* Hero/Overview Section */}
-      <section className="bg-gradient-to-b from-blue-50 to-white py-20">
+      {/* Hero Section */}
+      <section className="bg-gradient-primary py-20 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-6 text-5xl font-bold text-gray-900">
-            Simplify Your Business Finances
+          <h1 className="mb-6 text-5xl font-bold md:text-7xl">
+            Smart Crypto Trading with Influencer Insights
           </h1>
-          <p className="mb-8 text-xl text-gray-600">
-            Create, manage, and get paid for your invoices with ease.
-            Built specifically for sole business owners.
+          <p className="mb-8 text-xl text-gray-200">
+            Monitor crypto influencers in real-time, analyze their recommendations with AI, and automate your trading with advanced risk management features.
           </p>
           <div className="space-x-4">
             <Link
-              to="/signup"
-              className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700"
+              to="/dashboard"
+              className="inline-block rounded-full bg-gradient-bitcoin px-8 py-4 font-semibold text-white transition hover:opacity-90"
             >
-              Get Started Free
+              Start Trading
             </Link>
             <Link
-              to="#features"
-              className="inline-block rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition hover:bg-gray-50"
+              to="/docs"
+              className="inline-block rounded-full border border-white/20 px-8 py-4 font-semibold text-white transition hover:bg-white/10"
             >
               Learn More
             </Link>
@@ -52,85 +51,125 @@ export default function IndexRoute() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20">
+      <section className="bg-gradient-secondary py-20 text-white">
         <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-4xl font-bold text-gray-900">
-            Everything You Need
-          </h2>
+          <h2 className="mb-12 text-center text-4xl font-bold">Core Features</h2>
           <div className="grid gap-8 md:grid-cols-3">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="rounded-lg p-6 text-center shadow-lg transition hover:shadow-xl"
+                className="rounded-2xl bg-white/10 backdrop-blur-lg p-6 transition-all hover:scale-105"
               >
-                <div className="mb-4 text-4xl text-blue-600">{feature.icon}</div>
-                <h3 className="mb-3 text-xl font-semibold">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-4xl font-bold text-gray-900">
-            What Our Users Say
-          </h2>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="rounded-lg bg-white p-6 shadow-lg"
-              >
-                <p className="mb-4 italic text-gray-600">"{testimonial.quote}"</p>
-                <div className="flex items-center">
-                  <div className="h-12 w-12 rounded-full bg-gray-200"></div>
-                  <div className="ml-4">
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-12 text-center text-4xl font-bold text-gray-900">
-            Simple, Transparent Pricing
-          </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className="rounded-lg border p-6 shadow-lg transition hover:shadow-xl"
-              >
-                <h3 className="mb-2 text-2xl font-bold">{plan.name}</h3>
-                <p className="mb-6">
-                  <span className="text-4xl font-bold">${plan.price}</span>
-                  <span className="text-gray-600">/month</span>
-                </p>
-                <ul className="mb-6 space-y-3">
-                  {plan.features.map((feature, i) => (
+                <div className="mb-4 text-4xl">{feature.icon}</div>
+                <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
+                <p className="text-gray-300">{feature.description}</p>
+                <ul className="mt-4 space-y-2 text-sm text-gray-400">
+                  {feature.points.map((point, i) => (
                     <li key={i} className="flex items-center">
-                      <span className="mr-2 text-green-500">✓</span>
-                      {feature}
+                      <span className="mr-2">•</span>
+                      {point}
                     </li>
                   ))}
                 </ul>
-                <Link
-                  to="/signup"
-                  className="block w-full rounded-lg bg-blue-600 py-3 text-center text-white transition hover:bg-blue-700"
-                >
-                  Choose {plan.name}
-                </Link>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trading Features */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="mb-12 text-center text-4xl font-bold">Advanced Trading Features</h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="space-y-8">
+              <div className="rounded-lg border border-gray-200 p-6 dark:border-gray-800">
+                <h3 className="mb-4 text-2xl font-semibold">Order Types</h3>
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Market & Limit Orders
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Stop-loss with Auto Execution
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Take-profit Orders
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    DCA with Customizable Intervals
+                  </li>
+                </ul>
+              </div>
+              <div className="rounded-lg border border-gray-200 p-6 dark:border-gray-800">
+                <h3 className="mb-4 text-2xl font-semibold">Risk Management</h3>
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Position Size Limits
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Maximum Allocation per Token
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Previous Purchase Detection
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Trading Frequency Limits
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="space-y-8">
+              <div className="rounded-lg border border-gray-200 p-6 dark:border-gray-800">
+                <h3 className="mb-4 text-2xl font-semibold">Wallet Management</h3>
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Import & Generate Wallets
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Hardware Wallet Support
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Multi-signature Support
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    2FA & IP Whitelisting
+                  </li>
+                </ul>
+              </div>
+              <div className="rounded-lg border border-gray-200 p-6 dark:border-gray-800">
+                <h3 className="mb-4 text-2xl font-semibold">Fee Management</h3>
+                <ul className="space-y-3 text-gray-600 dark:text-gray-400">
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    0.1% Base Fee per Trade
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    5% Success Fee on Profits
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Network Gas Fee Estimation
+                  </li>
+                  <li className="flex items-center">
+                    <span className="mr-2">•</span>
+                    Fee Analytics & Reporting
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -141,69 +180,36 @@ export default function IndexRoute() {
 // Data
 const features = [
   {
-    icon: "📋",
-    title: "Smart Invoicing",
-    description: "Create and send professional invoices in seconds with our intuitive interface."
-  },
-  {
-    icon: "💳",
-    title: "Secure Payments",
-    description: "Accept payments online with our secure payment processing system."
-  },
-  {
-    icon: "📊",
-    title: "Financial Insights",
-    description: "Track your business performance with detailed analytics and reports."
-  }
-]
-
-const testimonials = [
-  {
-    quote: "payFlow has completely transformed how I handle my business finances. It's a game-changer!",
-    name: "Sarah Johnson",
-    role: "Freelance Designer"
-  },
-  {
-    quote: "The automated reminders have helped me get paid faster. My cash flow has never been better.",
-    name: "Michael Chen",
-    role: "Marketing Consultant"
-  },
-  {
-    quote: "Simple, efficient, and professional. Everything a small business owner needs.",
-    name: "Emma Davis",
-    role: "Business Coach"
-  }
-]
-
-const pricingPlans = [
-  {
-    name: "Starter",
-    price: "0",
-    features: [
-      "Up to 5 invoices/month",
-      "Basic reporting",
-      "Email support",
-      "Single user"
+    icon: "🎯",
+    title: "Influencer Monitoring",
+    description: "Real-time tracking and analysis of crypto influencers on Twitter",
+    points: [
+      "Automated tweet collection",
+      "Historical analysis",
+      "Performance metrics",
+      "Influencer rankings"
     ]
   },
   {
-    name: "Professional",
-    price: "29",
-    features: [
-      "Unlimited invoices",
-      "Advanced reporting",
-      "Priority support",
-      "Multiple payment methods"
+    icon: "🤖",
+    title: "AI-Powered Analysis",
+    description: "Advanced natural language processing for crypto-related content",
+    points: [
+      "Token identification",
+      "Sentiment analysis",
+      "Price impact prediction",
+      "Trade suggestions"
     ]
   },
   {
-    name: "Enterprise",
-    price: "99",
-    features: [
-      "Everything in Professional",
-      "Custom branding",
-      "API access",
-      "Dedicated account manager"
+    icon: "⚡",
+    title: "Automated Trading",
+    description: "Execute trades automatically with comprehensive risk management",
+    points: [
+      "Multiple order types",
+      "Position management",
+      "Risk controls",
+      "Helius RPC integration"
     ]
   }
 ]
