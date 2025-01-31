@@ -40,6 +40,7 @@ async function checkPositionLimits(
   tokenAddress: string,
   amount: number
 ): Promise<boolean> {
+  
   // Get user's current position in this token
   const existingTrades = await db.trade.findMany({
     where: {
