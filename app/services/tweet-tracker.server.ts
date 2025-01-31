@@ -4,8 +4,11 @@ import { db } from "~/libs/db.server"
 import { emit } from "./sse.server"
 
 const TWEET_MAX_TIME_MS = 1 * 60 * 1000 // 1 minute
+
+// Configure OpenAI SDK to use DeepSeek API
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_KEY,
+  baseURL: process.env.OPENAI_COMPATIBLE_URL || 'https://api.deepseek.com/v1',
+  apiKey: process.env.OPENAI_COMPATIBLE_KEY,
 })
 
 async function getTweets(username: string) {
@@ -52,7 +55,7 @@ async function getTweets(username: string) {
 async function getTokenFromLLM(content: string): Promise<string | null> {
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "deepseek-chat",
       messages: [
         {
           role: "system",

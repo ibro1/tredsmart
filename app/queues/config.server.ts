@@ -3,9 +3,12 @@ import { createBullBoard } from "@bull-board/api"
 import { BullAdapter } from "@bull-board/api/bullAdapter"
 import { ExpressAdapter } from "@bull-board/express"
 
-// Create queues
+// Create queues with Docker Redis service
 export const tweetQueue = new Queue("tweet-processing", {
-  redis: process.env.REDIS_URL || "redis://localhost:6379",
+  redis: {
+    host: process.env.NODE_ENV === "production" ? "redis" : "localhost",
+    port: 6379,
+  },
   defaultJobOptions: {
     removeOnComplete: true,
     attempts: 3,
