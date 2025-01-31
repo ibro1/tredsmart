@@ -23,7 +23,7 @@ COPY . .
 RUN pnpm db:gen
 
 # After installing dependencies but before starting the app
-RUN pnpm prod:db:migrate
+RUN pnpm prod:db:deploy
 
 # Only if you need initial data
 RUN pnpm prod:db:seed
