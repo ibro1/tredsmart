@@ -19,6 +19,15 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store/v3 \
 # Copy source code
 COPY . .
 
+# After COPY . /app but before build step
+RUN pnpm db:gen
+
+# After installing dependencies but before starting the app
+RUN pnpm prod:db:migrate
+
+# Only if you need initial data
+RUN pnpm prod:db:seed
+
 # Build application
 RUN pnpm build
 
