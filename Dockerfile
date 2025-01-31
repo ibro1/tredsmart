@@ -26,7 +26,7 @@ RUN pnpm db:gen
 RUN pnpm prod:db:deploy
 
 # Only if you need initial data
-RUN pnpm prod:db:seed
+# RUN pnpm prod:db:seed
 
 # Build application
 RUN pnpm build
