@@ -23,7 +23,14 @@ export default {
       url: true,
       buffer: true,
       stream: true,
-      crypto: true,
+      zlib: true, // Common dependency
+      util: true,
+      assert: true,
+      events: true,
+      string_decoder: true,
+      os: true, // Preemptively add common ones
+      path: true,
+      vm: true
     },
   },
 
