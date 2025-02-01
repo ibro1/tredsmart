@@ -2,7 +2,7 @@
 FROM node:20-bullseye-slim AS base
 
 # Install Python and build tools FIRST
-RUN apt-get update && apt-get install -y python3 g++ make
+RUN apt-get update && apt-get install -y python3 g++ make redis-server
 
 # Install pnpm
 RUN npm install -g corepack@0.24.1 && corepack enable
@@ -41,6 +41,11 @@ COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/build ./build
 COPY --from=base /app/public ./public
 
-# Expose port and start server
-EXPOSE 3000
-CMD ["pnpm", "start"]
+# Add Redis configuration
+COPY redis.conf /etc/redis/redis.conf
+RUN mkdir -p /data/redis
+RUN chown -R node:node /data/redis
+
+# Start Redis and the app
+EXPOSE 3000 6379
+CMD redis-server /etc/redis/redis.conf --daemonize yes && pnpm start
