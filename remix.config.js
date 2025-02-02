@@ -10,13 +10,10 @@ export default {
   routes: async (defineRoutes) => {
     return flatRoutes('routes', defineRoutes);
   },
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
-  // serverBuildPath: "build/index.js",
 
   browserNodeBuiltinsPolyfill: {
     modules: {
+      // Core modules
       punycode: true,
       http: true,
       https: true,
@@ -24,6 +21,19 @@ export default {
       buffer: true,
       stream: true,
       crypto: true,
+      
+      // Additional required modules
+      string_decoder: true,
+      assert: true,
+      zlib: true,
+      util: true,
+      events: true,
+      
+      // Common dependencies
+      os: true,
+      path: true,
+      fs: true,
+      vm: true,
     },
   },
   
