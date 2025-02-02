@@ -23,20 +23,11 @@ export default {
       url: true,
       buffer: true,
       stream: true,
-      zlib: true, // Common dependency
-      util: true,
-      assert: true,
-      events: true,
-      string_decoder: true,
-      os: true, // Preemptively add common ones
-      path: true,
-      vm: true
+      crypto: true,
     },
   },
-
-  serverDependenciesToBundle: [
-    "@phosphor-icons/react",
-    "@icons-pack/react-simple-icons",
-    "@remixicon/react",
-  ],
+  
+  serverModuleFormat: "esm",
+  serverPlatform: "node",
+  serverMinify: false,
 }

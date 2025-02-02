@@ -1,6 +1,6 @@
 import Queue from "bull"
 import { createBullBoard } from "@bull-board/api"
-import { BullAdapter } from "@bull-board/api/bullAdapter"
+import { BullAdapter } from "@bull-board/api/dist/bullAdapter.js"
 import { ExpressAdapter } from "@bull-board/express"
 
 // Create queues with Docker Redis service
