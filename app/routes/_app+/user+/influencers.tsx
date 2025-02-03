@@ -19,6 +19,7 @@ import { requireUser } from "~/helpers/auth"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { db } from "~/libs/db.server"
+import { parsedEnv } from "~/utils/env.server"
 
 export const handle = createSitemap()
 
@@ -65,7 +66,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         url: `https://twttrapi.p.rapidapi.com/get-user?username=${username}`,
         headers: {
           "x-rapidapi-host": "twttrapi.p.rapidapi.com",
-          "x-rapidapi-key": process.env.RAPID_API_KEY,
+          "x-rapidapi-key": parsedEnv.RAPID_API_KEY,
         },
       }
 

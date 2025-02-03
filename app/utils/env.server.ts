@@ -18,6 +18,16 @@ export const parsedEnv = parseEnv(process.env, {
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
 
+  //crypto
+  RPC_URL: z.string().optional(),
+  PRIVATE_KEY: z.string().optional(),
+  RAPID_API_KEY: z.string().optional(),
+  OPENAI_COMPATIBLE_KEY: z.string().optional(),
+  OPENAI_COMPATIBLE_URL: z.string().optional(),
+  PLATFORM_FEE_PERCENT: z.string().optional(),
+  DEFAULT_TRADE_AMOUNT: z.string().optional(),
+  SLIPPAGE_PERCENT: z.string().optional(),
+
   // For services
   RESEND_KEY: z.string().optional(),
   UPLOADCARE_PUBLIC_KEY: z.string().optional(),
@@ -32,6 +42,17 @@ export const parsedEnv = parseEnv(process.env, {
  */
 export const parsedEnvClient = {
   NODE_ENV: parsedEnv.NODE_ENV,
+  // RPC_URL: parsedEnv.RPC_URL,
+
+  // PRIVATE_KEY: parsedEnv.PRIVATE_KEY,
+  // RAPID_API_KEY: parsedEnv.RAPID_API_KEY,
+  // OPENAI_COMPATIBLE_KEY: parsedEnv.OPENAI_COMPATIBLE_KEY,
+  // OPENAI_COMPATIBLE_URL: parsedEnv.OPENAI_COMPATIBLE_URL,
+  // PLATFORM_FEE_PERCENT: parsedEnv.PLATFORM_FEE_PERCENT,
+  DEFAULT_TRADE_AMOUNT: parsedEnv.DEFAULT_TRADE_AMOUNT,
+  SLIPPAGE_PERCENT: parsedEnv.SLIPPAGE_PERCENT,
+  RESEND_KEY: parsedEnv.RESEND_KEY,
+
   UPLOADCARE_PUBLIC_KEY: parsedEnv.UPLOADCARE_PUBLIC_KEY,
   POSTHOG_KEY: parsedEnv.POSTHOG_KEY,
   SENTRY_DSN: parsedEnv.SENTRY_DSN,

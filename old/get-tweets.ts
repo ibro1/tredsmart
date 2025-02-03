@@ -1,4 +1,5 @@
 import axios from "axios";
+import { parsedEnv } from "~/utils/env.server";
 
 const TWEET_MAX_TIME_MS = 1 * 60 * 1000;
 
@@ -17,7 +18,7 @@ export async function getTweets(userName: string): Promise<Tweet[]> {
         url: `https://twttrapi.p.rapidapi.com/user-tweets?username=${userName}`,
         headers: { 
         'x-rapidapi-host': 'twttrapi.p.rapidapi.com', 
-        'x-rapidapi-key': process.env.RAPID_API_KEY
+        'x-rapidapi-key': parsedEnv.RAPID_API_KEY
         }
     };
   

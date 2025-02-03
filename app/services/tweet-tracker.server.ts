@@ -2,13 +2,14 @@ import axios from "axios"
 import OpenAI from "openai"
 import { db } from "~/libs/db.server"
 import { emit } from "./sse.server"
+import { parsedEnv } from "~/utils/env.server"
 
 const TWEET_MAX_TIME_MS = 1 * 60 * 1000 // 1 minute
 
 // Configure OpenAI SDK to use DeepSeek API
 const openai = new OpenAI({
-  baseURL: process.env.OPENAI_COMPATIBLE_URL || 'https://api.deepseek.com/v1',
-  apiKey: process.env.OPENAI_COMPATIBLE_KEY,
+  baseURL: parsedEnv.OPENAI_COMPATIBLE_URL || 'https://api.deepseek.com/v1',
+  apiKey: parsedEnv.OPENAI_COMPATIBLE_KEY,
 })
 
 async function getTweets(username: string) {
@@ -17,7 +18,7 @@ async function getTweets(username: string) {
     url: `https://twttrapi.p.rapidapi.com/user-tweets?username=${username}`,
     headers: {
       "x-rapidapi-host": "twttrapi.p.rapidapi.com",
-      "x-rapidapi-key": process.env.RAPID_API_KEY,
+      "x-rapidapi-key": parsedEnv.RAPID_API_KEY,
     },
   }
 

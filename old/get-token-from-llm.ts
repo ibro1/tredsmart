@@ -1,6 +1,7 @@
 import OpenAI from "openai";
+import { parsedEnv } from "~/utils/env.server";
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_KEY
+    apiKey: parsedEnv.OPENAI_COMPATIBLE_KEY
 });
 
 export async function getTokenFromLLM(contents: string): Promise<string> {

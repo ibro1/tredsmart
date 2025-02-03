@@ -16,7 +16,7 @@ import { Document } from "~/document"
 import { modelUser } from "~/models/user.server"
 import { authService } from "~/services/auth.server"
 import { getThemeSession } from "~/services/theme.server"
-import { parsedEnvClient } from "~/utils/env.server"
+import { parsedEnv, parsedEnvClient } from "~/utils/env.server"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { SolanaProvider } from "~/lib/solana/context"
@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const userSession = await authService.isAuthenticated(request)
   if (!userSession) {
     // Start tweet tracking job
-    if (process.env.NODE_ENV === "production") {
+    if (parsedEnv.NODE_ENV === "production") {
       startTweetTracking().catch((error) => {
         console.error("Failed to start tweet tracking:", error)
       })
@@ -57,7 +57,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!userData) return redirect(`/logout`)
 
   // Start tweet tracking job
-  if (process.env.NODE_ENV === "production") {
+  if (parsedEnv.NODE_ENV === "production") {
     startTweetTracking().catch((error) => {
       console.error("Failed to start tweet tracking:", error)
     })

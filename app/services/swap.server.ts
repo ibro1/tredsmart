@@ -12,6 +12,7 @@ import { db } from "~/libs/db.server"
 import { createConnection } from "./wallet.server"
 import { logger } from "~/utils/logger.server"
 import { getTokenPrice } from "./price.server"
+import { parsedEnv } from "~/utils/env.server"
 
 const isV0Tx = true
 const MAX_RETRIES = 3
@@ -169,7 +170,7 @@ export async function executeSwap(tokenSignalId: string) {
         userId: user.id,
         inputAmount: user.tradeAmount!,
         tokenAddress: tokenSignal.tokenAddress,
-        platformFee: (user.tradeAmount! * parseFloat(process.env.PLATFORM_FEE_PERCENT || "0.1")) / 100,
+        platformFee: (user.tradeAmount! * parseFloat(parsedEnv.PLATFORM_FEE_PERCENT || "0.1")) / 100,
         stopLoss: user.stopLoss,
         takeProfit: user.takeProfit,
         avgEntryPrice,

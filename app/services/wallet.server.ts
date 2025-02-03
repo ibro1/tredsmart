@@ -1,5 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js"
 import { db } from "~/libs/db.server"
+import { parsedEnv } from "~/utils/env.server"
 
 // Get user's wallet address from database
 export async function getUserWallet(userId: string) {
@@ -19,5 +20,5 @@ export async function getUserWallet(userId: string) {
 
 // Create Solana connection
 export function createConnection() {
-  return new Connection(process.env.RPC_URL!)
+  return new Connection(parsedEnv.RPC_URL!)
 }
