@@ -87,7 +87,7 @@ export default function UserDashboardRoute() {
               )}
             </div>
             <Link
-              to="/app/user/wallet"
+              to="/user/wallet"
               className="text-sm text-primary hover:underline"
             >
               Manage Wallet
@@ -143,13 +143,13 @@ export default function UserDashboardRoute() {
           <h2 className="text-lg font-semibold">Quick Actions</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button variant="outline" asChild>
-              <Link to="/app/user/wallet">Manage Wallet</Link>
+              <Link to="/user/wallet">Manage Wallet</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/app/user/portfolio">View Portfolio</Link>
+              <Link to="/user/portfolio">View Portfolio</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/app/user/settings">Settings</Link>
+              <Link to="/user/settings">Settings</Link>
             </Button>
           </div>
         </Card>
@@ -159,7 +159,7 @@ export default function UserDashboardRoute() {
           {connected ? (
             <div className="mt-4">
               <Link
-                to="/app/user/wallet"
+                to="/user/wallet"
                 className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
               >
                 View All Transactions

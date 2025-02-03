@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "analyze": "pnpm clean && dpdm **/*.*",
-    "build": "remix build",
+    "build": "pnpm copy-wallet-styles && remix build",
     "build:sentry": "remix build --sourcemap && sentry-upload-sourcemaps --quiet --org allnimal --project dogokit-beagle",
     "check": "pnpm /^check:.*/",
     "check:data": "tsx prisma/utils/check-data.ts",
@@ -17,6 +17,7 @@
     "check:ts-coverage": "typescript-coverage-report",
     "check:tsc": "tsc --noEmit",
     "clean": "rm -rf .cache build public/build",
+    "copy-wallet-styles": "node scripts/copy-wallet-styles.js",
     "db:debug": "prisma debug",
     "db:docs": "prisma-docs-generator serve",
     "db:gen": "prisma generate",
