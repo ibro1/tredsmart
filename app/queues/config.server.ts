@@ -3,6 +3,7 @@ import { createBullBoard } from "@bull-board/api"
 import { BullAdapter } from "@bull-board/api/bullAdapter"
 import { ExpressAdapter } from "@bull-board/express"
 
+
 // Create queues with Docker Redis service
 export const tweetQueue = new Queue("tweet-processing", {
   redis: {
