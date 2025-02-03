@@ -15,3 +15,7 @@ __*
 /prisma/docs
 /public/build
 tsconfig.tsbuildinfo
+.vscode
+/.vscode
+/.vscode/
+.vscode/

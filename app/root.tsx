@@ -24,11 +24,13 @@ import { startTweetTracking } from "~/jobs/tweet-tracker.server"
 
 export const handle = createSitemap()
 
-export const meta: MetaFunction = () =>
-  createMeta({
+export const meta: MetaFunction = ({ data }) => {
+  const environment = data?.ENV || {}
+  return createMeta({
     title: configSite.title,
     description: configSite.description,
-  })
+  }, { isDevelopment: environment.NODE_ENV === 'development' })
+}
 
 export const links: LinksFunction = () => configDocumentLinks
 
