@@ -1,4 +1,4 @@
-import { configMeta, createMetaConfig } from "~/configs/meta"
+import { configMeta } from "~/configs/meta"
 
 /**
  * Metadata Creator Function
@@ -8,31 +8,27 @@ import { configMeta, createMetaConfig } from "~/configs/meta"
  * - https://opengraph.xyz
  */
 
-export function createMeta(
-  {
-    title = configMeta.defaultTitle,
-    description = configMeta.defaultDescription,
-    canonicalPath = "/",
-    locale = configMeta.locale,
-    name = configMeta.defaultName,
-    ogImageAlt = configMeta.ogImageAlt,
-    ogImagePath = configMeta.ogImagePath,
-    ogImageType = configMeta.ogImageType,
-    ogType = configMeta.ogType,
-    themeColor = configMeta.themeColor,
-    twitterAuthorHandle = configMeta.author.handle,
-    twitterImagePath = configMeta.twitterImagePath,
-    url = configMeta.url,
-  }: CreateMeta,
-  environment: { isDevelopment: boolean } = { isDevelopment: false }
-) {
-  const meta = createMetaConfig(environment)
+export function createMeta({
+  title = configMeta.defaultTitle,
+  description = configMeta.defaultDescription,
+  canonicalPath = "/",
+  locale = configMeta.locale,
+  name = configMeta.defaultName,
+  ogImageAlt = configMeta.ogImageAlt,
+  ogImagePath = configMeta.ogImagePath,
+  ogImageType = configMeta.ogImageType,
+  ogType = configMeta.ogType,
+  themeColor = configMeta.themeColor,
+  twitterAuthorHandle = configMeta.author.handle,
+  twitterImagePath = configMeta.twitterImagePath,
+  url = configMeta.url,
+}: CreateMeta) {
   return [
     {
       title:
-        title === meta.defaultTitle
-          ? meta.defaultTitle
-          : `${title} ${meta.defaultSeparator} ${meta.defaultName}`,
+        title === configMeta.defaultTitle
+          ? configMeta.defaultTitle
+          : `${title} ${configMeta.defaultSeparator} ${configMeta.defaultName}`,
     },
     {
       name: "description",
@@ -56,7 +52,7 @@ export function createMeta(
     },
     {
       name: "msapplication-config",
-      content: `${meta.url}/browserconfig.xml`,
+      content: `${configMeta.url}/browserconfig.xml`,
     },
     {
       property: "og:site_name",
@@ -72,7 +68,7 @@ export function createMeta(
     },
     {
       property: "og:url",
-      content: canonicalPath ? `${meta.url}${canonicalPath}` : url,
+      content: canonicalPath ? `${configMeta.url}${canonicalPath}` : url,
     },
     {
       property: "og:type",
@@ -93,8 +89,8 @@ export function createMeta(
     {
       property: "og:image",
       content: ogImagePath
-        ? `${meta.url}${ogImagePath}`
-        : `${meta.url}${meta.ogImagePath}`,
+        ? `${configMeta.url}${ogImagePath}`
+        : `${configMeta.url}${configMeta.ogImagePath}`,
     },
     {
       name: "twitter:card",
@@ -118,32 +114,32 @@ export function createMeta(
     },
     {
       name: "twitter:domain",
-      content: meta.domain,
+      content: configMeta.domain,
     },
     {
       name: "twitter:url",
-      content: canonicalPath ? `${meta.url}${canonicalPath}` : url || meta.url,
+      content: canonicalPath ? `${configMeta.url}${canonicalPath}` : url || configMeta.url,
     },
     {
       name: "twitter:image",
       content: twitterImagePath
-        ? `${meta.url}${twitterImagePath}`
-        : `${meta.url}${meta.twitterImagePath}`,
+        ? `${configMeta.url}${twitterImagePath}`
+        : `${configMeta.url}${configMeta.twitterImagePath}`,
     },
     {
       name: "fb:app_id",
-      content: meta.fbAppId,
+      content: configMeta.fbAppId,
     },
     {
       tagName: "link",
       rel: "canonical",
-      href: canonicalPath ? `${meta.url}${canonicalPath}` : url,
+      href: canonicalPath ? `${configMeta.url}${canonicalPath}` : url,
     },
     {
       "script:ld+json": {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: meta.defaultTitle,
+        name: configMeta.defaultTitle,
       },
     },
   ]
