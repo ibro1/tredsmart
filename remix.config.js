@@ -40,4 +40,11 @@ export default {
   serverModuleFormat: "esm",
   serverPlatform: "node",
   serverMinify: false,
+
+  // Bundle CommonJS modules
+  serverDependenciesToBundle: [
+    "@phosphor-icons/react",
+    "@icons-pack/react-simple-icons",
+    "@remixicon/react",
+  ],
 }

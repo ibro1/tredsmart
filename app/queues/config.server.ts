@@ -1,7 +1,8 @@
 import Queue from "bull"
 import { createBullBoard } from "@bull-board/api"
-import { BullAdapter } from "@bull-board/api/dist/bullAdapter.js"
+import { BullAdapter } from "@bull-board/api/bullAdapter.js"
 import { ExpressAdapter } from "@bull-board/express"
+
 
 // Create queues with Docker Redis service
 export const tweetQueue = new Queue("tweet-processing", {
