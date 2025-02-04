@@ -4,10 +4,6 @@ import { IconArrowRight, IconBrandTwitter, IconChartBar, IconRobot, IconShieldLo
 import { motion } from "framer-motion"
 import { createMeta } from "~/utils/meta"
 
-// Import fonts
-import "@fontsource-variable/inter"
-import "@fontsource-variable/anybody"
-
 export const meta: MetaFunction = () =>
   createMeta({
     title: "TredSmarter - Crypto Influencer Trading Platform",
@@ -24,7 +20,7 @@ export default function IndexRoute() {
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm dark:bg-black/80">
           <div className="text-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary-600 border-t-transparent"></div>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">Loading amazing things...</p>
           </div>
         </div>
@@ -40,7 +36,7 @@ export default function IndexRoute() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h1 className="font-display bg-gradient-to-r from-primary to-secondary bg-clip-text text-5xl font-bold text-transparent md:text-7xl">
+            <h1 className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-5xl font-bold text-transparent md:text-7xl">
               Smart Crypto Trading with
               <br />
               Influencer Insights
@@ -51,14 +47,14 @@ export default function IndexRoute() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/dashboard"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-semibold text-white transition-all hover:bg-primary/90 hover:shadow-glow-primary"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary-600 px-8 py-4 font-semibold text-white transition-all hover:bg-primary-700 hover:shadow-glow-primary"
               >
                 Start Trading
                 <IconArrowRight className="transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 to="/docs"
-                className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/50 px-8 py-4 font-semibold text-gray-700 backdrop-blur-sm transition-all hover:border-primary/20 hover:bg-primary/5 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-200 dark:hover:border-primary/80 dark:hover:bg-primary/20"
+                className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/50 px-8 py-4 font-semibold text-gray-700 backdrop-blur-sm transition-all hover:border-primary-200 hover:bg-primary-50 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-200 dark:hover:border-primary-800 dark:hover:bg-primary-900/50"
               >
                 Learn More
               </Link>
@@ -91,9 +87,9 @@ export default function IndexRoute() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 * (index + 3) }}
-                className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:border-primary/20 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-primary/80"
+                className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:border-primary-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-primary-800"
               >
-                <div className="mb-4 inline-block rounded-xl bg-primary/10 p-3 text-primary dark:bg-primary/20">
+                <div className="mb-4 inline-block rounded-xl bg-primary-50 p-3 text-primary-600 dark:bg-primary-900/50">
                   {getFeatureIcon(feature.icon)}
                 </div>
                 <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-white">
@@ -124,7 +120,7 @@ export default function IndexRoute() {
             </p>
             <Link
               to="/dashboard"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-semibold text-white transition-all hover:bg-primary/90 hover:shadow-glow-primary"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary-600 px-8 py-4 font-semibold text-white transition-all hover:bg-primary-700 hover:shadow-glow-primary"
             >
               Get Started Now
               <IconArrowRight className="transition-transform group-hover:translate-x-1" />
