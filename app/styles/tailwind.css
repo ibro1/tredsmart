@@ -156,7 +156,7 @@
     @apply font-semibold;
   }
   .prose-a-styles {
-    @apply focus-ring cursor-pointer rounded-xs no-underline transition;
+    @apply focus-ring cursor-pointer rounded-sm no-underline transition;
     @apply text-primary hover:text-primary/75;
   }
   .prose-pre-styles {

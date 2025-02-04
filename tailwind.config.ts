@@ -95,6 +95,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "0.5rem",
       },
       boxShadow: {
         "glow-primary": "0 0 20px rgba(57, 115, 241, 0.5)",
