@@ -40,16 +40,16 @@ function SiteNavigationSmall() {
 
       <div className="flex items-center gap-4">
         <Link
-          to="/influencers"
+          to="/how-it-works"
           className="text-sm font-medium text-white hover:text-white/80"
         >
-          Influencers
+          How it Works
         </Link>
         <Link
-          to="/trades"
+          to="/faq"
           className="text-sm font-medium text-white hover:text-white/80"
         >
-          Trades
+          faq
         </Link>
         {userSession ? (
           <ButtonLink
@@ -93,22 +93,22 @@ function SiteNavigationLarge() {
 
           <div className="flex items-center gap-6">
             <Link
-              to="/influencers"
+              to="/how-it-works"
               className="text-sm font-medium text-white hover:text-white/80"
             >
-              Influencers
+              How it Works
             </Link>
             <Link
               to="/trades"
               className="text-sm font-medium text-white hover:text-white/80"
             >
-              Trades
+              Faq
             </Link>
             <Link
-              to="/analytics"
+              to="/faq"
               className="text-sm font-medium text-white hover:text-white/80"
             >
-              Analytics
+              Faq
             </Link>
             <Link
               to="/docs"
