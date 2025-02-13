@@ -8,16 +8,24 @@ import { RPCManager } from "./rpc-manager"
 export function SolanaProvider({ children }: { children: React.ReactNode }) {
   const env = getClientEnv()
 
+  // Initialize RPCManager early
   useEffect(() => {
-    RPCManager.initialize(env.RPC_URL || "")
-  }, [env.RPC_URL])
+    RPCManager.initialize(env.RPC_URL)
+  }, [])
 
-  const endpoint = useMemo(() => RPCManager.getCurrentEndpoint(), [])
+  const endpoint = useMemo(() => {
+    // Ensure we have a valid endpoint
+    return RPCManager.getCurrentEndpoint()
+  }, [])
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
     []
   )
+
+  if (!endpoint) {
+    throw new Error("No valid RPC endpoint available")
+  }
 
   return (
     <ConnectionProvider endpoint={endpoint}>
