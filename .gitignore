@@ -20,3 +20,17 @@ tsconfig.tsbuildinfo
 /.vscode/
 .vscode/
 .vscode
+/python
+python/
+python
+/python/
+.lightning_studio
+/.lightning_studio
+/.lightning_studio/
+.lightning_studio/
+.pnpm-store
+/.pnpm-store
+.pnpm-store/
+/.pnpm-store/
+this_studio.iml
+/.idea
