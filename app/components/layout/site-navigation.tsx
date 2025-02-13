@@ -1,4 +1,5 @@
 import { Link, NavLink, type NavLinkProps } from "@remix-run/react"
+
 import { SiteNavigationMenu } from "~/components/layout/site-navigation-menu"
 import { IconMatch } from "~/components/libs/icon"
 import { IndicatorUser } from "~/components/shared/indicator-user"
@@ -23,50 +24,46 @@ function SiteNavigationSmall() {
   const { userSession } = useRootLoaderData()
 
   return (
-    <nav className={cn(
-      "sticky top-0 z-20 flex items-center justify-between gap-2 bg-primary-500 p-4 transition-colors lg:hidden",
-    )}>
+    <nav
+      className={cn(
+        "sticky top-0 z-20 flex items-center justify-between gap-2 bg-background p-2 transition-colors lg:hidden",
+      )}
+    >
       <div className="flex items-center justify-between gap-2">
         <Link
           to="/"
           prefetch="intent"
           className="focus-ring block rounded-xs transition hover:opacity-75"
         >
-          <Logo text="TredSmarter" className="text-white" />
+          <Logo text="Dogokit" />
         </Link>
 
         <ThemeButton size="sm" />
       </div>
 
-      <div className="flex items-center gap-4">
-        <Link
-          to="/how-it-works"
-          className="text-sm font-medium text-white hover:text-white/80"
-        >
-          How it Works
-        </Link>
-        <Link
-          to="/faq"
-          className="text-sm font-medium text-white hover:text-white/80"
-        >
-          faq
-        </Link>
-        {userSession ? (
-          <ButtonLink
-            to="/dashboard"
-            size="sm"
-            className="bg-success-500 text-white hover:opacity-90"
-          >
-            Dashboard
-          </ButtonLink>
-        ) : (
-          <ButtonLink
-            to="/login"
-            size="sm"
-            className="bg-success-500 text-white hover:opacity-90"
-          >
-            Get Started
-          </ButtonLink>
+      <div className="flex items-center gap-2">
+        {userSession && (
+          <>
+            <SiteNavigationMenu />
+
+            <ButtonLink to="/new" prefetch="intent" size="sm" className="hidden sm:inline-flex">
+              <IconMatch icon="plus" />
+              <span className="hidden sm:inline">New</span>
+            </ButtonLink>
+
+            <IndicatorUser size="sm" />
+          </>
+        )}
+
+        {!userSession && (
+          <>
+            <ButtonLink to="/login" prefetch="intent" variant="ghost" size="sm">
+              <IconMatch icon="sign-in" />
+              <span className="hidden sm:inline">Log In</span>
+            </ButtonLink>
+
+            <SiteNavigationMenu />
+          </>
         )}
       </div>
     </nav>
@@ -77,78 +74,50 @@ function SiteNavigationLarge() {
   const { userSession } = useRootLoaderData()
 
   return (
-    <nav className={cn(
-      "sticky top-0 z-20 hidden bg-primary-500 lg:block",
-      "border-b border-white/10",
-    )}>
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <div className="flex items-center gap-8">
-          <Link
-            to="/"
-            prefetch="intent"
-            className="focus-ring block rounded-xs transition hover:opacity-75"
-          >
-            <Logo text="TredSmarter" className="text-white" />
-          </Link>
+    <nav
+      className={cn(
+        "sticky top-0 z-40 hidden items-center justify-between gap-2 bg-background p-4 transition-colors lg:flex",
+      )}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <Link to="/" prefetch="intent" className="focus-ring block transition hover:text-primary">
+          <Logo text="Dogokit" />
+        </Link>
 
-          <div className="flex items-center gap-6">
-            <Link
-              to="/how-it-works"
-              className="text-sm font-medium text-white hover:text-white/80"
-            >
-              How it Works
-            </Link>
-            <Link
-              to="/trades"
-              className="text-sm font-medium text-white hover:text-white/80"
-            >
-              Faq
-            </Link>
-            <Link
-              to="/faq"
-              className="text-sm font-medium text-white hover:text-white/80"
-            >
-              Faq
-            </Link>
-            <Link
-              to="/docs"
-              className="text-sm font-medium text-white hover:text-white/80"
-            >
-              Documentation
-            </Link>
-          </div>
-        </div>
+        <ThemeButton />
+      </div>
+
+      <div className="flex items-center gap-4">
+        <ul className="flex items-center gap-4">
+          {configNavigationItems
+            .filter(item => configSite.navItems.includes(item.path))
+            .filter(navItem => navItem.isEnabled)
+            .map(navItem => (
+              <NavItemLink key={navItem.path} navItem={navItem} />
+            ))}
+        </ul>
 
         <div className="flex items-center gap-4">
-          <ThemeButton size="sm" />
-          {userSession ? (
+          {!userSession && (
             <>
-              <ButtonLink
-                to="/dashboard"
-                size="sm"
-                className="bg-success-500 text-white hover:opacity-90"
-              >
-                Dashboard
+              <ButtonLink to="/login" prefetch="intent" variant="secondary" size="sm">
+                <IconMatch icon="sign-in" />
+                <span>Log In</span>
+              </ButtonLink>
+              <ButtonLink to="/signup" prefetch="intent" size="sm">
+                <IconMatch icon="user-plus" />
+                <span>Sign Up</span>
+              </ButtonLink>
+            </>
+          )}
+
+          {userSession && (
+            <>
+              <ButtonLink to="/new" prefetch="intent" size="sm">
+                <IconMatch icon="plus" />
+                <span>New</span>
               </ButtonLink>
               <IndicatorUser size="sm" />
-            </>
-          ) : (
-            <>
-              <ButtonLink
-                to="/login"
-                variant="ghost"
-                size="sm"
-                className="text-white hover:text-white/80"
-              >
-                Log In
-              </ButtonLink>
-              <ButtonLink
-                to="/signup"
-                size="sm"
-                className="bg-success-500 text-white hover:opacity-90"
-              >
-                Sign Up
-              </ButtonLink>
             </>
           )}
         </div>
@@ -157,28 +126,26 @@ function SiteNavigationLarge() {
   )
 }
 
-function NavItemLink({
+export function NavItemLink({
   navItem,
   onClick,
-}: {
-  navItem: NavItem
-} & Pick<NavLinkProps, "onClick">) {
+}: { navItem: NavItem } & Pick<NavLinkProps, "onClick">) {
   return (
-    <NavLink
-      key={navItem.path}
-      to={navItem.path}
-      onClick={onClick}
-      prefetch="intent"
-      className={({ isActive }) =>
-        cn(
-          "focus-ring flex items-center gap-2 rounded-xs px-2 py-1.5 text-[15px] transition",
-          "hover:bg-gray-100 dark:hover:bg-gray-800",
-          isActive && "bg-gray-100 font-medium dark:bg-gray-800",
-        )
-      }
-    >
-      <IconMatch icon={navItem.icon} className="h-4 w-4" />
-      <span>{navItem.name}</span>
-    </NavLink>
+    <li>
+      <NavLink
+        to={navItem.path}
+        prefetch="intent"
+        onClick={onClick}
+        className={({ isActive }) =>
+          cn(
+            "focus-ring inline-flex select-none items-center gap-2 rounded-md px-2 py-1 font-semibold transition hover:bg-secondary",
+            isActive && "text-primary",
+          )
+        }
+      >
+        <IconMatch icon={navItem.icon} />
+        <span className="select-none">{navItem.text}</span>
+      </NavLink>
+    </li>
   )
 }
