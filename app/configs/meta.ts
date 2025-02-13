@@ -5,10 +5,7 @@
  */
 
 import { configSite } from "~/configs/site"
-import { parsedEnv } from "~/utils/env.server"
-
-// eslint-disable-next-line node/no-process-env
-const isDevelopment = parsedEnv.NODE_ENV === "development"
+import { isDevelopment } from "~/utils/env.shared"
 
 export const configMeta = {
   defaultName: configSite.name,
