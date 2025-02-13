@@ -7,6 +7,7 @@ import {
 } from "@remix-run/node"
 import { Outlet, useLoaderData, useRouteError } from "@remix-run/react"
 import { captureRemixErrorBoundaryError, withSentry } from "@sentry/remix"
+import { useEffect } from "react"
 
 import { GeneralErrorBoundary } from "~/components/shared/error-boundary"
 import { ThemeProvider, type Theme } from "~/components/shared/theme"
@@ -73,6 +74,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 function RootRoute() {
   const data = useLoaderData<typeof loader>()
+
+  useEffect(() => {
+    window.ENV = data.ENV
+  }, [data.ENV])
 
   return (
     <ThemeProvider specifiedTheme={data.theme}>

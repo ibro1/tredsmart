@@ -10,14 +10,13 @@ import {
 } from "@solana/wallet-adapter-wallets"
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
 import { clusterApiUrl } from "@solana/web3.js"
-import { parsedEnv } from "~/utils/env.server"
+import { getClientEnv } from "~/utils/env.shared"
 
 export function SolanaProvider({ children }: { children: React.ReactNode }) {
-  // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
+  const env = getClientEnv()
   const network = WalletAdapterNetwork.MainnetBeta
 
-  // You can also provide a custom RPC endpoint
-  const endpoint = useMemo(() => parsedEnv.RPC_URL || clusterApiUrl(network), [network])
+  const endpoint = useMemo(() => env.RPC_URL || clusterApiUrl(network), [network])
 
   const wallets = useMemo(
     () => [
