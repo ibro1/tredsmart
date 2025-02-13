@@ -7,8 +7,8 @@ import { Button } from "~/components/ui/button"
 import { IconWallet, IconPlus } from "@tabler/icons-react"
 import { authService } from "~/services/auth.server"
 import { createMeta } from "~/utils/meta"
-import { WalletLogin } from "~/components/auth/wallet-login"
-import { WalletCreate } from "~/components/auth/wallet-create"
+// import { WalletLogin } from "~/components/auth/wallet-login"
+// import { WalletCreate } from "~/components/auth/wallet-create"
 
 export const meta: MetaFunction = () =>
   createMeta({
@@ -33,13 +33,13 @@ export default function LoginPage() {
     }
   }, [connected, navigate])
 
-  if (mode === "connect") {
-    return <WalletLogin onBack={() => setMode("select")} />
-  }
+  // if (mode === "connect") {
+  //   return <WalletLogin onBack={() => setMode("select")} />
+  // }
 
-  if (mode === "create") {
-    return <WalletCreate onBack={() => setMode("select")} />
-  }
+  // if (mode === "create") {
+  //   return <WalletCreate onBack={() => setMode("select")} />
+  // }
 
   return (
     <div className="container mx-auto max-w-lg px-4 py-12">
