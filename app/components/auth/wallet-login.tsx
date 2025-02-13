@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button"
 import { IconArrowLeft } from "@tabler/icons-react"
 import bs58 from "bs58"
 
+// Change from named export to default export
 export default function WalletLogin({ onBack }: { onBack: () => void }) {
   const { publicKey, signMessage, connected } = useWallet()
   const fetcher = useFetcher()

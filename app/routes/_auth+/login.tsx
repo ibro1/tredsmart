@@ -7,8 +7,8 @@ import { Button } from "~/components/ui/button"
 import { IconWallet, IconPlus } from "@tabler/icons-react"
 import { authService } from "~/services/auth.server"
 import { createMeta } from "~/utils/meta"
-import { WalletLogin } from "~/components/auth/wallet-login"
-import { WalletCreate } from "~/components/auth/wallet-create"
+import WalletLogin from "~/components/auth/wallet-login"
+import WalletCreate from "~/components/auth/wallet-create"
 
 export const meta: MetaFunction = () =>
   createMeta({
