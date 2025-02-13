@@ -1,12 +1,26 @@
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js"
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token"
+import { retry } from "~/utils/retry"
+import { RPCManager } from "./rpc-manager"
 
 export async function getSolanaBalance(
   connection: Connection,
   publicKey: PublicKey
 ): Promise<number> {
   try {
-    const balance = await connection.getBalance(publicKey)
+    const balance = await retry(
+      () => connection.getBalance(publicKey),
+      {
+        retries: 3,
+        delay: 1000,
+        onRetry: async (attempt) => {
+          if (attempt === 2) {
+            // On second retry, create new connection with rotated endpoint
+            connection = await RPCManager.createConnection()
+          }
+        }
+      }
+    )
     return balance / LAMPORTS_PER_SOL
   } catch (error) {
     console.error("Error getting SOL balance:", error)
