@@ -7,15 +7,17 @@ import { Button } from "~/components/ui/button"
 import { IconArrowLeft } from "@tabler/icons-react"
 import bs58 from "bs58"
 
-export function WalletLogin({ onBack }: { onBack: () => void }) {
+export default function WalletLogin({ onBack }: { onBack: () => void }) {
   const { publicKey, signMessage, connected } = useWallet()
   const fetcher = useFetcher()
   const [error, setError] = useState<string>()
 
+  // Debounce the auto-login effect
   useEffect(() => {
-    if (connected && publicKey && signMessage) {
-      handleLogin()
-    }
+    if (!connected || !publicKey || !signMessage) return
+
+    const timeoutId = setTimeout(handleLogin, 500)
+    return () => clearTimeout(timeoutId)
   }, [connected, publicKey, signMessage])
 
   async function handleLogin() {

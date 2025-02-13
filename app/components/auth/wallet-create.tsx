@@ -1,15 +1,22 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "~/components/ui/card"
 import { Button } from "~/components/ui/button"
 import { IconArrowLeft, IconDownload, IconEye, IconEyeOff } from "@tabler/icons-react"
 import * as bip39 from "bip39"
 import { Keypair } from "@solana/web3.js"
 
-export function WalletCreate({ onBack }: { onBack: () => void }) {
+export default function WalletCreate({ onBack }: { onBack: () => void }) {
   const [step, setStep] = useState<"generate" | "backup" | "verify">("generate")
   const [mnemonic, setMnemonic] = useState("")
   const [showPhrase, setShowPhrase] = useState(false)
   
+  useEffect(() => {
+    return () => {
+      setMnemonic("")
+      setShowPhrase(false)
+    }
+  }, [])
+
   function handleGenerateWallet() {
     const mnemonic = bip39.generateMnemonic()
     setMnemonic(mnemonic)
