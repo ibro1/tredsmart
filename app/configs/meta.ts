@@ -5,7 +5,9 @@
  */
 
 import { configSite } from "~/configs/site"
-import { isDevelopment } from "~/utils/env.shared"
+import { getClientEnv } from "~/utils/env.shared"
+
+const env = getClientEnv()
 
 export const configMeta = {
   defaultName: configSite.name,
@@ -13,7 +15,7 @@ export const configMeta = {
   defaultDescription: configSite.description,
   defaultSeparator: "—",
   domain: configSite.domain,
-  url: isDevelopment ? "http://localhost:3000" : `https://${configSite.domain}`,
+  url: env.APP_URL || "https://3000-01jkzh9hqcgmnnvn1xzm0t4nn7.cloudspaces.litng.ai",
   themeColor: "#c7d2fe",
   backgroundColor: "#1e1b4b",
   locale: "en_US",

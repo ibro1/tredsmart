@@ -42,6 +42,7 @@ export const parsedEnv = parseEnv(process.env, {
  */
 export const parsedEnvClient = {
   NODE_ENV: parsedEnv.NODE_ENV,
+  APP_URL: parsedEnv.APP_URL,
   RPC_URL: parsedEnv.RPC_URL,
 
   // PRIVATE_KEY: parsedEnv.PRIVATE_KEY,

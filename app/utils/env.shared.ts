@@ -3,6 +3,7 @@ export const isProduction = typeof process !== "undefined" && process.env.NODE_E
 
 export interface EnvSchemaClient {
   NODE_ENV?: string
+  APP_URL?: string
   RPC_URL?: string
   DEFAULT_TRADE_AMOUNT?: string
   SLIPPAGE_PERCENT?: string
