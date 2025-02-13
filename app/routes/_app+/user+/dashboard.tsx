@@ -1,17 +1,19 @@
 import { json, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData, useRouteError } from "@remix-run/react"
 import {
   IconWallet,
   IconChartLine,
   IconBrandTwitter,
   IconArrowRight,
+  IconAlertCircle,
 } from "@tabler/icons-react"
 import { useWallet, useConnection } from "@solana/wallet-adapter-react"
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 
 import { Card } from "~/components/ui/card"
 import { Button } from "~/components/ui/button"
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert"
 import { requireUser } from "~/helpers/auth"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -30,6 +32,41 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ user })
 }
 
+export function ErrorBoundary() {
+  const error = useRouteError()
+  const reload = useCallback(() => {
+    window.location.reload()
+  }, [])
+  console.log(error)
+  return (
+    <div className="app-container space-y-8">
+      <header className="app-header">
+        <h1 className="text-2xl font-bold">Dashboard Error</h1>
+      </header>
+
+      <Alert variant="destructive">
+        <IconAlertCircle className="h-5 w-5" />
+        <AlertTitle>Something went wrong</AlertTitle>
+        <AlertDescription className="mt-2 flex flex-col gap-2">
+          <p>
+            {error instanceof Error
+              ? error.message
+              : "An unexpected error occurred while loading the dashboard."}
+          </p>
+          <div className="flex gap-2">
+            <Button onClick={reload} variant="outline" size="sm">
+              Try again
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link to="/">Return home</Link>
+            </Button>
+          </div>
+        </AlertDescription>
+      </Alert>
+    </div>
+  )
+}
+
 export default function UserDashboardRoute() {
   const { user } = useLoaderData<typeof loader>()
   const { publicKey, connected } = useWallet()
@@ -43,7 +80,9 @@ export default function UserDashboardRoute() {
         const solBalance = await getSolanaBalance(connection, publicKey)
         setBalance(solBalance)
       } catch (error) {
-        console.error("Error fetching balance:", error)
+        throw new Error(
+          "Failed to fetch wallet balance. Please check your connection and try again."
+        )
       }
     }
 
