@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useFetcher } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import { Alert } from "~/components/ui/alert"
+import bs58 from "bs58"
 
 export function WalletAuth({ redirectTo = "/dashboard" }) {
   const { publicKey, signMessage } = useWallet()
@@ -17,7 +18,7 @@ export function WalletAuth({ redirectTo = "/dashboard" }) {
       const message = `Sign in to TredSmart\nNonce: ${Date.now()}`
       const encodedMessage = new TextEncoder().encode(message)
       const signature = await signMessage(encodedMessage)
-      const signatureStr = Buffer.from(signature).toString("base64")
+      const signatureStr = bs58.encode(signature)
 
       fetcher.submit(
         {
