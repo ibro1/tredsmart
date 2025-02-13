@@ -5,7 +5,7 @@ import { z } from "zod"
 export const parsedEnv = parseEnv(process.env, {
   // For app
   NODE_ENV: z.enum(["", "development", "test", "preview", "staging", "production"]).optional(),
-  APP_URL: z.string().url().optional().default("http://localhost:3000"),
+  APP_URL: z.string().url().optional().default("https://3000-01jkzh9hqcgmnnvn1xzm0t4nn7.cloudspaces.litng.ai"),
   SESSION_SECRET: z.string().min(1),
 
   // For database

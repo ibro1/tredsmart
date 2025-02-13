@@ -16,23 +16,15 @@ import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
 import { useAppMode } from "~/hooks/use-app-mode"
 import { db } from "~/libs/db.server"
 import { modelUser } from "~/models/user.server"
-import { issueUsernameUnallowed } from "~/schemas/user"
+import { issueUsernameUnallowed, schemaUserSignUp } from "~/schemas/user"
 import { authService } from "~/services/auth.server"
 import { createMeta } from "~/utils/meta"
 import { createTimer } from "~/utils/timer"
-import { generateUsername } from "~/utils/string.server"
-
-// Update schema without username
-const schemaUserSignUp = z.object({
-  email: z.string().email("Invalid email format"),
-  fullname: z.string().min(2, "Name is too short").max(100, "Name is too long"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-})
 
 export const meta: MetaFunction = () =>
   createMeta({
-    title: `Sign Up for payFlow`,
-    description: `Create your account and start managing invoices`,
+    title: `Sign Up`,
+    description: `Create a new account`,
   })
 
 export const loader = ({ request }: ActionFunctionArgs) => {
@@ -51,60 +43,62 @@ export default function SignUpRoute() {
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get("redirectTo")
 
-  const [form, { email, fullname, password }] = useForm<z.infer<typeof schemaUserSignUp>>({
-    id: "signup",
-    lastSubmission: actionData?.submission,
-    shouldRevalidate: "onInput",
-    constraint: getFieldsetConstraint(schemaUserSignUp),
-    onValidate({ formData }) {
-      return parse(formData, { schema: schemaUserSignUp })
+  const [form, { email, fullname, username, password }] = useForm<z.infer<typeof schemaUserSignUp>>(
+    {
+      id: "signup",
+      lastSubmission: actionData?.submission,
+      shouldRevalidate: "onInput",
+      constraint: getFieldsetConstraint(schemaUserSignUp),
+      onValidate({ formData }) {
+        return parse(formData, { schema: schemaUserSignUp })
+      },
+      defaultValue: isModeDevelopment
+        ? {
+            email: "example@example.com",
+            fullname: "Example Name",
+            username: "example",
+            password: "exampleexample",
+          }
+        : {},
     },
-    defaultValue: isModeDevelopment
-      ? {
-          email: "example@example.com",
-          fullname: "Example Name",
-          password: "exampleexample",
-        }
-      : {},
-  })
+  )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      <div className="container mx-auto flex min-h-screen items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-glow">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Create your account
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Already have an account?{" "}
-              <LinkText to="/login" className="font-medium text-primary hover:text-primary-600">
-                Log in
-              </LinkText>
-            </p>
-          </div>
+    <div className="site-container">
+      <div className="site-section-md space-y-8">
+        <header className="site-header">
+          <h2 className="inline-flex items-center gap-2">
+            <IconMatch icon="user-plus" />
+            <span>Create a new account</span>
+          </h2>
+          <p>
+            Already have an account?{" "}
+            <LinkText to="/login" className="transition hover:text-primary">
+              Log in
+            </LinkText>
+          </p>
+        </header>
 
-          <div className="mt-8 space-y-6">
-            <AuthButtons />
-          </div>
+        <section className="space-y-2">
+          <AuthButtons />
+        </section>
 
-          <SectionOr />
+        <SectionOr />
 
+        <section>
           <Form
             replace
+            action="/signup"
             method="POST"
-            className="mt-8 space-y-6"
+            className="flex flex-col gap-2"
             {...form.props}
           >
-            <div className="space-y-4">
+            <fieldset className="flex flex-col gap-2" disabled={isSubmitting}>
               <FormField>
-                <FormLabel htmlFor={fullname.id} className="sr-only">
-                  Full Name
-                </FormLabel>
+                <FormLabel htmlFor={fullname.id}>Full Name</FormLabel>
                 <Input
                   {...conform.input(fullname)}
                   id={fullname.id}
-                  className="rounded-xl px-4 py-3"
                   placeholder="Full Name"
                   autoFocus={fullname.error ? true : undefined}
                   required
@@ -113,17 +107,14 @@ export default function SignUpRoute() {
               </FormField>
 
               <FormField>
-                <FormLabel htmlFor={email.id} className="sr-only">
-                  Email address
-                </FormLabel>
+                <FormLabel htmlFor={email.id}>Email</FormLabel>
                 <Input
                   {...conform.input(email, {
                     type: "email",
                     description: true,
                   })}
                   id={email.id}
-                  className="rounded-xl px-4 py-3"
-                  placeholder="Email address"
+                  placeholder="yourname@example.com"
                   autoCapitalize="none"
                   autoCorrect="off"
                   autoFocus={email.error ? true : undefined}
@@ -133,41 +124,45 @@ export default function SignUpRoute() {
               </FormField>
 
               <FormField>
-                <FormLabel htmlFor={password.id} className="sr-only">
-                  Password
-                </FormLabel>
-                <div className="relative w-full">
-                  <InputPassword
-                    {...conform.input(password, {
-                      description: true,
-                    })}
-                    id={password.id}
-                    className="w-full rounded-xl px-4 py-3"
-                    placeholder="Password (8+ characters)"
-                    autoComplete="new-password"
-                    autoFocus={password.error ? true : undefined}
-                    required
-                  />
-                </div>
-                <FormDescription id={password.descriptionId} className="text-xs">
-                  Must be at least 8 characters
+                <FormLabel htmlFor={username.id}>Username</FormLabel>
+                <Input
+                  {...conform.input(username)}
+                  id={username.id}
+                  placeholder="username"
+                  autoFocus={username.error ? true : undefined}
+                  required
+                />
+                <FormDescription id={password.descriptionId}>
+                  4 to 20 characters (letters, numbers, dot, underscore)
                 </FormDescription>
+                <FormErrors>{username}</FormErrors>
+              </FormField>
+
+              <FormField>
+                <FormLabel htmlFor={password.id}>Password</FormLabel>
+                <InputPassword
+                  {...conform.input(password, {
+                    description: true,
+                  })}
+                  id={password.id}
+                  placeholder="Enter password (at least 8 characters)"
+                  autoComplete="current-password"
+                  autoFocus={password.error ? true : undefined}
+                  required
+                  className="w-full"
+                />
+                <FormDescription id={password.descriptionId}>8 characters or more</FormDescription>
                 <FormErrors>{password}</FormErrors>
               </FormField>
-            </div>
 
-            {redirectTo ? <input type="hidden" name="redirectTo" value={redirectTo} /> : null}
+              {redirectTo ? <input type="hidden" name="redirectTo" value={redirectTo} /> : null}
 
-            <ButtonLoading
-              type="submit"
-              loadingText="Creating account..."
-              isLoading={isSubmitting}
-              className="w-full rounded-xl bg-primary py-3 font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-            >
-              Create account
-            </ButtonLoading>
+              <ButtonLoading type="submit" loadingText="Signing Up..." isLoading={isSubmitting}>
+                Sign Up
+              </ButtonLoading>
+            </fieldset>
           </Form>
-        </div>
+        </section>
       </div>
     </div>
   )
@@ -181,6 +176,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const submission = await parse(formData, {
     async: true,
     schema: schemaUserSignUp.superRefine(async (data, ctx) => {
+      const unallowedUsername = configUnallowedKeywords.find(keyword => keyword === data.username)
+      if (unallowedUsername) {
+        ctx.addIssue(issueUsernameUnallowed)
+        return
+      }
+
       const existingEmail = await db.user.findUnique({
         where: { email: data.email },
         select: { id: true },
@@ -189,46 +190,36 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         ctx.addIssue({
           path: ["email"],
           code: z.ZodIssueCode.custom,
-          message: "Email is already registered",
+          message: "Email cannot be used",
         })
+        return
+      }
+
+      const existingUsername = await db.user.findUnique({
+        where: { username: data.username },
+        select: { id: true },
+      })
+      if (existingUsername) {
+        ctx.addIssue(issueUsernameUnallowed)
         return
       }
     }),
   })
 
-  await timer.delay()
-
   if (!submission.value || submission.intent !== "submit") {
+    await timer.delay()
     return json({ status: "error", submission }, { status: 400 })
   }
 
-  // Generate username from email and fullname
-  const baseUsername = generateUsername(submission.value.email, submission.value.fullname)
-  let username = baseUsername
-  let counter = 1
+  const newUser = await modelUser.signup(submission.value)
 
-  // Keep trying until we find a unique username
-  while (true) {
-    const existingUsername = await db.user.findUnique({
-      where: { username },
-      select: { id: true },
-    })
-    if (!existingUsername) break
-    username = `${baseUsername}${counter}`
-    counter++
+  if (!newUser) {
+    await timer.delay()
+    return json({ status: "error", submission }, { status: 500 })
   }
 
-  // Create the user with the generated username
-  const user = await modelUser.create({
-    ...submission.value,
-    username,
-  })
-
+  await timer.delay()
   return authService.authenticate("form", request, {
     successRedirect: "/user/dashboard",
-    failureRedirect: "/signup",
-    formData: {
-      userId: user.id,
-    },
   })
 }
