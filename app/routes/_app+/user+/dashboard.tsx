@@ -9,7 +9,8 @@ import {
 } from "@tabler/icons-react"
 import { useWallet, useConnection } from "@solana/wallet-adapter-react"
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, Suspense } from "react"
+import { Skeleton } from "~/components/ui/skeleton"
 
 import { Card } from "~/components/ui/card"
 import { Button } from "~/components/ui/button"
@@ -67,36 +68,76 @@ export function ErrorBoundary() {
   )
 }
 
-export default function UserDashboardRoute() {
-  const { user } = useLoaderData<typeof loader>()
+function WalletStatus({ className }: { className?: string }) {
   const { publicKey, connected } = useWallet()
   const { connection } = useConnection()
   const [balance, setBalance] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    let mounted = true
+    
     async function fetchBalance() {
-      if (!publicKey || !connected) return
+      if (!publicKey || !connected) {
+        setIsLoading(false)
+        return
+      }
+      
       try {
+        setIsLoading(true)
         const solBalance = await getSolanaBalance(connection, publicKey)
-        setBalance(solBalance)
+        if (mounted) {
+          setBalance(solBalance)
+        }
       } catch (error) {
-        throw new Error(
-          "Failed to fetch wallet balance. Please check your connection and try again."
-        )
+        console.error("Error fetching balance:", error)
+      } finally {
+        if (mounted) {
+          setIsLoading(false)
+        }
       }
     }
 
     fetchBalance()
+    return () => { mounted = false }
   }, [publicKey, connected, connection])
+
+  if (isLoading) {
+    return (
+      <div className={className}>
+        <Skeleton className="h-8 w-24" />
+        <Skeleton className="mt-2 h-4 w-32" />
+      </div>
+    )
+  }
+
+  if (!connected || !publicKey) {
+    return (
+      <p className="mt-2 text-sm text-muted-foreground">
+        Connect your wallet to view balance
+      </p>
+    )
+  }
+
+  return (
+    <>
+      <p className="mt-2 text-2xl font-bold">{balance.toFixed(4)} SOL</p>
+      <p className="text-sm text-muted-foreground">
+        {shortenAddress(publicKey.toBase58())}
+      </p>
+    </>
+  )
+}
+
+export default function UserDashboardRoute() {
+  const { user } = useLoaderData<typeof loader>()
 
   return (
     <div className="app-container space-y-8">
       <header className="app-header items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {user.fullname}
-          </p>
+          <p className="text-muted-foreground">Welcome back, {user.fullname}</p>
         </div>
         <WalletMultiButton />
       </header>
@@ -110,25 +151,11 @@ export default function UserDashboardRoute() {
                 <IconWallet className="h-5 w-5 text-muted-foreground" />
                 <h2 className="font-semibold">Wallet Status</h2>
               </div>
-              {connected && publicKey ? (
-                <>
-                  <p className="mt-2 text-2xl font-bold">
-                    {balance.toFixed(4)} SOL
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {shortenAddress(publicKey.toBase58())}
-                  </p>
-                </>
-              ) : (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Connect your wallet to view balance
-                </p>
-              )}
+              <Suspense fallback={<Skeleton className="mt-4 h-16 w-full" />}>
+                <WalletStatus />
+              </Suspense>
             </div>
-            <Link
-              to="/user/wallet"
-              className="text-sm text-primary hover:underline"
-            >
+            <Link to="/user/wallet" className="text-sm text-primary hover:underline">
               Manage Wallet
             </Link>
           </div>
