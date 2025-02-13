@@ -1,16 +1,14 @@
 import { json, type LoaderFunctionArgs, type MetaFunction } from "@remix-run/node"
 import { useNavigate } from "@remix-run/react"
 import { useWallet } from "@solana/wallet-adapter-react"
-import { lazy, Suspense, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "~/components/ui/card"
 import { Button } from "~/components/ui/button"
 import { IconWallet, IconPlus } from "@tabler/icons-react"
 import { authService } from "~/services/auth.server"
 import { createMeta } from "~/utils/meta"
-
-// Lazy load components
-const WalletLogin = lazy(() => import("~/components/auth/wallet-login"))
-const WalletCreate = lazy(() => import("~/components/auth/wallet-create"))
+import { WalletLogin } from "~/components/auth/wallet-login"
+import { WalletCreate } from "~/components/auth/wallet-create"
 
 export const meta: MetaFunction = () =>
   createMeta({
@@ -29,20 +27,11 @@ export default function LoginPage() {
   const { connected } = useWallet()
   const navigate = useNavigate()
 
-  // Only redirect if already connected
   useEffect(() => {
     if (connected) {
-      const timeoutId = setTimeout(() => navigate("/dashboard"), 100)
-      return () => clearTimeout(timeoutId)
+      navigate("/dashboard")
     }
   }, [connected, navigate])
-
-  // Render loading state while components are being loaded
-  const loadingFallback = (
-    <div className="flex h-32 items-center justify-center">
-      <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-    </div>
-  )
 
   return (
     <div className="container mx-auto max-w-lg px-4 py-12">
@@ -77,14 +66,10 @@ export default function LoginPage() {
               </Button>
             </div>
           </>
+        ) : mode === "connect" ? (
+          <WalletLogin onBack={() => setMode("select")} />
         ) : (
-          <Suspense fallback={loadingFallback}>
-            {mode === "connect" ? (
-              <WalletLogin onBack={() => setMode("select")} />
-            ) : (
-              <WalletCreate onBack={() => setMode("select")} />
-            )}
-          </Suspense>
+          <WalletCreate onBack={() => setMode("select")} />
         )}
       </Card>
     </div>

@@ -77,6 +77,15 @@ function RootRoute() {
 
   useEffect(() => {
     window.ENV = data.ENV
+
+    // Add chunk load error handler
+    window.addEventListener('error', (event) => {
+      if (event.message.includes('chunk') || event.message.includes('loading')) {
+        console.error('Chunk loading error:', event)
+        // Refresh the page after a short delay
+        setTimeout(() => window.location.reload(), 1000)
+      }
+    })
   }, [data.ENV])
 
   return (
