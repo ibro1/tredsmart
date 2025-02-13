@@ -53,7 +53,9 @@ export async function getRecentTransactions(
 
     const transactions = await Promise.all(
       signatures.map(async (sig) => {
-        const tx = await connection.getParsedTransaction(sig.signature)
+        const tx = await connection.getParsedTransaction(sig.signature, {
+          maxSupportedTransactionVersion: 0
+        })
         return {
           signature: sig.signature,
           timestamp: sig.blockTime ? new Date(sig.blockTime * 1000) : new Date(),
