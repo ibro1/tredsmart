@@ -38,7 +38,19 @@ export function Document({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta httpEquiv="Content-Security-Policy" content="connect-src 'self' https: wss:;" />
+        <meta httpEquiv="Content-Security-Policy" content={`
+          default-src 'self';
+          script-src 'self' 'unsafe-inline' 'unsafe-eval';
+          style-src 'self' 'unsafe-inline';
+          img-src 'self' data: blob: https:;
+          font-src 'self';
+          connect-src 'self' 
+            https://*.solana.com
+            https://*.projectserum.com
+            https://rpc.ankr.com
+            wss:;
+          frame-src 'none';
+        `.replace(/\s+/g, ' ').trim()} />
         <Meta />
         <Links />
         <ThemeHead ssrTheme={Boolean(dataTheme)} />
